@@ -1,0 +1,3 @@
+# Generated offline presentations should not dominate source-language statistics.
+gallery/**/*.html linguist-generated=true
+gallery/index.html linguist-generated=true
