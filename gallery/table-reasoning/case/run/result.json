@@ -1,0 +1,19 @@
+{
+  "skill": "table-reasoning",
+  "skill_hash": "829f9cf18dfda8d033c1500d5f9f233a2069bf2ca2f1897e0c2ef83197d78f15",
+  "model": "api_openai_gpt-6-astra",
+  "answer": "90",
+  "status": "ok",
+  "error": "",
+  "observation_steps": 1,
+  "recorded_at": "2026-10-08T12:36:14.918164+00:00",
+  "input_tokens": 3391,
+  "output_tokens": 30,
+  "case_check": {
+    "passed": true,
+    "reference": "90",
+    "match": "numeric"
+  },
+  "model_reported": "gpt-6-astra",
+  "model_requests": 1
+}

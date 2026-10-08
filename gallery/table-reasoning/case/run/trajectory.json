@@ -1,0 +1,65 @@
+{
+  "item_id": "gallery/table-reasoning",
+  "domain": "custom",
+  "split": "inference",
+  "arm": "viewcraft",
+  "condition": "normal",
+  "config_hash": "829f9cf18dfda8d033c1500d5f9f233a2069bf2ca2f1897e0c2ef83197d78f15",
+  "protocol_hash": "8168cfec2f0cf62d39550085fe67faa0a1e4ca12eb303f090980800fcfd22f5c",
+  "environment_seed": null,
+  "answer_text": "90",
+  "parsed_answer": null,
+  "score": null,
+  "scored_by": "",
+  "views": [
+    {
+      "view_id": "full_5f6e67344005",
+      "source_media_id": "input/input.png",
+      "kind": "full",
+      "long_edge_px": 1440,
+      "out_w": 1440,
+      "out_h": 1134,
+      "src_w": 1600,
+      "src_h": 1260,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 0.9,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdtpCOE5RKAu7Q9WDeASklsbtNt",
+      "bytes_len": 347897,
+      "created_by": "phi.overview"
+    }
+  ],
+  "request_ids": [
+    "chatcmpl-EWhdtpCOE5RKAu7Q9WDeASklsbtNt"
+  ],
+  "observation_steps": 1,
+  "n_actions": 0,
+  "malformed_zooms": 0,
+  "refused_zooms": 0,
+  "selected_units": [],
+  "canvas_notes": [],
+  "input_tokens": 3391,
+  "output_tokens": 30,
+  "wall_time_s": 15.816282623913139,
+  "exec_result": {
+    "passed": true,
+    "violations": []
+  },
+  "grounding": null,
+  "status": "ok",
+  "error": "",
+  "notes": "",
+  "sent_pixels": 1632960,
+  "n_images_sent": 1,
+  "unit_key": "db2c30307c4e4b33ce76f6ce5964e153af3d225fb5d350c0004b90cae561cdcf"
+}

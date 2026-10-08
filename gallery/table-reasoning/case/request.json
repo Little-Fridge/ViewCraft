@@ -1,0 +1,5 @@
+{
+  "question": "What is the total number of units for orders where Depot is North, Category is Kits, and Status is Shipped? Add the Units column for matching rows only. Return only the number.",
+  "images": ["input.png"],
+  "options": []
+}

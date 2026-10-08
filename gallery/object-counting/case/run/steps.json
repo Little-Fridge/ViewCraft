@@ -1,0 +1,22 @@
+[
+  {
+    "step": 1,
+    "images": [
+      "views/step-01-01.png"
+    ],
+    "status": "ok",
+    "response": "{\"action\":\"answer\",\"answer\":\"7\"}",
+    "model": "gpt-6-astra",
+    "request_id": "chatcmpl-EWhdpB9KucUr3a2MZ8JRDigxjFSyU",
+    "usage": {
+      "input_tokens": 3299,
+      "output_tokens": 33,
+      "total_tokens": 3332,
+      "cached_tokens": 0,
+      "reasoning_tokens": 15
+    },
+    "seconds": 3.9068702119402587,
+    "from_cache": false,
+    "recorded_at": "2026-10-08T12:36:03.314309+00:00"
+  }
+]

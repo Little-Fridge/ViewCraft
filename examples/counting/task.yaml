@@ -1,0 +1,16 @@
+# Paths are relative to this file. Image paths in data.jsonl are relative to that JSONL.
+data: data.jsonl
+initial_skill: initial_skill
+answer_style: short_text
+scorer: exact_match
+seed: 42
+budget:
+  observations: 4
+  max_images_per_request: 4
+evolution:
+  rounds: 2
+  train_batch_size: 3
+  max_submissions_per_round: 4
+  max_gate_evaluations_per_round: 2
+  strategy_book: true
+  viewcraft_visual_fallback: true

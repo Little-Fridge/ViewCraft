@@ -1,0 +1,19 @@
+{
+  "skill": "object-counting",
+  "skill_hash": "c126f2193408501fe6575e72017239968231644cb84b2dd256c8a73758387ee3",
+  "model": "api_openai_gpt-6-astra",
+  "answer": "7",
+  "status": "ok",
+  "error": "",
+  "observation_steps": 1,
+  "recorded_at": "2026-10-08T12:36:03.322495+00:00",
+  "input_tokens": 3299,
+  "output_tokens": 33,
+  "case_check": {
+    "passed": true,
+    "reference": "7",
+    "match": "numeric"
+  },
+  "model_reported": "gpt-6-astra",
+  "model_requests": 1
+}

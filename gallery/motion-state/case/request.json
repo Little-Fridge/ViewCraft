@@ -1,0 +1,18 @@
+{
+  "question": "Which labeled objects remained at the same position in every one of the five frames? An object that moves and returns to its starting position does not count. Return only the labels in alphabetical order, separated by a comma and a space.",
+  "images": [
+    "frame_01.png",
+    "frame_02.png",
+    "frame_03.png",
+    "frame_04.png",
+    "frame_05.png"
+  ],
+  "options": [],
+  "frame_times_s": [
+    0.0,
+    1.0,
+    2.0,
+    3.0,
+    4.0
+  ]
+}

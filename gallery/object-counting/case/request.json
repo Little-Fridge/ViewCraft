@@ -1,0 +1,7 @@
+{
+  "question": "How many orange triangles are there across all four compartments? Count only pieces that are both orange and triangular. Answer with only the integer.",
+  "images": [
+    "input.png"
+  ],
+  "options": []
+}

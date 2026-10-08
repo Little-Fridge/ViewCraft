@@ -1,0 +1,4 @@
+# Optional plotting tools for user analyses. Paper analysis scripts are not bundled.
+-r requirements.txt
+matplotlib>=3.9
+pandas>=2.2

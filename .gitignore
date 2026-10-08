@@ -1,0 +1,55 @@
+# Byte-code and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Benchmark datasets and the materialized media cache. Tens of GB, never
+# committed — see README.md "Data" for what each adapter expects.
+data/
+*.parquet
+*.zip
+*.tar
+*.tar.gz
+
+# Model weights, should any ever land here.
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.onnx
+
+# Run output: per-item trajectory JSON, SQLite ledgers, response caches.
+# This is the experiment's raw record, not source.
+runs/
+*.log
+*.sqlite
+*.sqlite-journal
+
+# Credentials. `viewcraft/credentials.py` reads the environment and nothing
+# else, so no credential file should exist — these patterns exist to make an
+# accident non-committable rather than to support a supported path.
+.env
+.env.*
+*.env
+*secret*
+*credential*
+!viewcraft/credentials.py
+*api_key*
+*apikey*
+*.pem
+*.key
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+!.env.example
+
+# Local development environments and regenerable duplicate gallery exports
+.venv/
+venv/
+gallery/*/case/run/replay.html

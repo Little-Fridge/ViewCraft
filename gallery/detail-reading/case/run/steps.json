@@ -1,0 +1,22 @@
+[
+  {
+    "step": 1,
+    "images": [
+      "views/step-01-01.png"
+    ],
+    "status": "ok",
+    "response": "{\"action\":\"answer\",\"answer\":\"CAL-7Q4M-82K6\"}",
+    "model": "gpt-6-astra",
+    "request_id": "chatcmpl-EWhdHjh7HKL9LrEI6Ejt3fPZQK3u3",
+    "usage": {
+      "input_tokens": 2828,
+      "output_tokens": 71,
+      "total_tokens": 2899,
+      "cached_tokens": 0,
+      "reasoning_tokens": 44
+    },
+    "seconds": 5.014064704068005,
+    "from_cache": false,
+    "recorded_at": "2026-10-08T12:35:31.005724+00:00"
+  }
+]

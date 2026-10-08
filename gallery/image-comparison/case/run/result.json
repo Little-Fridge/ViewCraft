@@ -1,0 +1,19 @@
+{
+  "skill": "image-comparison",
+  "skill_hash": "5c3de329db0559c86c36cf4d7db1b50079a4e7466d8450a763bb942317ea80b2",
+  "model": "api_openai_gpt-6-astra",
+  "answer": "Teal mug",
+  "status": "ok",
+  "error": "",
+  "observation_steps": 1,
+  "recorded_at": "2026-10-08T12:35:38.004049+00:00",
+  "input_tokens": 7039,
+  "output_tokens": 14,
+  "case_check": {
+    "passed": true,
+    "reference": "teal mug",
+    "match": "contains"
+  },
+  "model_reported": "gpt-6-astra",
+  "model_requests": 1
+}

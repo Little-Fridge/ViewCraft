@@ -1,0 +1,8 @@
+id: chart-reading
+title: Read a grouped bar chart
+description: Match bar colors to a legend, read category values, and answer a simple comparison or difference.
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 6

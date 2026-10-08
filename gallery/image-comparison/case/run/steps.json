@@ -1,0 +1,24 @@
+[
+  {
+    "step": 1,
+    "images": [
+      "views/step-01-01.png",
+      "views/step-01-02.png",
+      "views/step-01-03.png"
+    ],
+    "status": "ok",
+    "response": "{\"action\":\"answer\",\"answer\":\"Teal mug\"}",
+    "model": "gpt-6-astra",
+    "request_id": "chatcmpl-EWhdQXReOe9VOrpliXNgih5n8XWNT",
+    "usage": {
+      "input_tokens": 7039,
+      "output_tokens": 14,
+      "total_tokens": 7053,
+      "cached_tokens": 0,
+      "reasoning_tokens": 0
+    },
+    "seconds": 4.330434179864824,
+    "from_cache": false,
+    "recorded_at": "2026-10-08T12:35:38.001925+00:00"
+  }
+]

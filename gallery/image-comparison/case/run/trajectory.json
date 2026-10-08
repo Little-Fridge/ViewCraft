@@ -1,0 +1,120 @@
+{
+  "item_id": "gallery/image-comparison",
+  "domain": "custom",
+  "split": "inference",
+  "arm": "viewcraft",
+  "condition": "normal",
+  "config_hash": "5c3de329db0559c86c36cf4d7db1b50079a4e7466d8450a763bb942317ea80b2",
+  "protocol_hash": "230000b33beabda23ad54797d61832edfb30ea50b0dcfd7b0705eeec8603e102",
+  "environment_seed": null,
+  "answer_text": "Teal mug",
+  "parsed_answer": null,
+  "score": null,
+  "scored_by": "",
+  "views": [
+    {
+      "view_id": "full_9a3242cd11c7",
+      "source_media_id": "input/input_01.png",
+      "kind": "full",
+      "long_edge_px": 1200,
+      "out_w": 1200,
+      "out_h": 900,
+      "src_w": 1400,
+      "src_h": 1050,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 0.8571428571428571,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdQXReOe9VOrpliXNgih5n8XWNT",
+      "bytes_len": 108800,
+      "created_by": "phi.overview"
+    },
+    {
+      "view_id": "full_7554c32ea346",
+      "source_media_id": "input/input_02.png",
+      "kind": "full",
+      "long_edge_px": 1200,
+      "out_w": 1200,
+      "out_h": 900,
+      "src_w": 1400,
+      "src_h": 1050,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 0.8571428571428571,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdQXReOe9VOrpliXNgih5n8XWNT",
+      "bytes_len": 108778,
+      "created_by": "phi.overview"
+    },
+    {
+      "view_id": "lay_944f3fc5b377",
+      "source_media_id": "input_02.png",
+      "kind": "overview",
+      "long_edge_px": 2454,
+      "out_w": 2454,
+      "out_h": 989,
+      "src_w": 1400,
+      "src_h": 1050,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 1.0,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdQXReOe9VOrpliXNgih5n8XWNT",
+      "bytes_len": 140513,
+      "created_by": "psi.layout_expr"
+    }
+  ],
+  "request_ids": [
+    "chatcmpl-EWhdQXReOe9VOrpliXNgih5n8XWNT"
+  ],
+  "observation_steps": 1,
+  "n_actions": 0,
+  "malformed_zooms": 0,
+  "refused_zooms": 0,
+  "selected_units": [
+    0,
+    1
+  ],
+  "canvas_notes": [],
+  "input_tokens": 7039,
+  "output_tokens": 14,
+  "wall_time_s": 5.200112469960004,
+  "exec_result": {
+    "passed": true,
+    "violations": []
+  },
+  "grounding": null,
+  "status": "ok",
+  "error": "",
+  "notes": "",
+  "sent_pixels": 4587006,
+  "n_images_sent": 3,
+  "unit_key": "728f09352eb2c07d1baee5c4c67243bac98fb130933985fd9848e38b5c163e37"
+}

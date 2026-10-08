@@ -1,0 +1,23 @@
+keep_overview: true
+annotate_overview_boxes: false
+history_keep_last_n: 2
+order: overview_first
+evict_policy: keep_overview_drop_crops
+max_images_per_request: 6
+layout_expr: "grid(views, cols=2, gap=18, label=index)"
+context_ops: []
+view_contract: >-
+  Views appear in a two-column comparison sheet with numbered tiles in row-major
+  order. The initial pair follows the request's before/after source order.
+  Source and crop descriptions: {image_lines}
+  Compare the same landmarks across each pair. Tile numbers describe display
+  order; request crops using original source identifiers and full-source
+  coordinates, never comparison-sheet coordinates. Any later crops retain the
+  source identities given in their descriptions.
+answer_contract: >-
+  Once the single changed item is identifiable, return the runtime response
+  object with action=answer and the concise item name in the answer field.
+  Include its distinguishing visible color when appropriate. Follow any more
+  specific answer format in the question. Answer directly from the initial
+  comparison when readable; additional observations are optional.
+protocol_contract: ""

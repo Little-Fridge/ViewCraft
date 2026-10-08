@@ -1,0 +1,17 @@
+# Optional: only for the document-page domains (mmlongdoc, dude, mpdocvqa),
+# which must rasterise PDF pages, and for the dataset download helpers.
+#
+# ONE rasteriser is enough. `viewcraft/adapters/mmlongdoc.py:_rasteriser()`
+# probes for pypdfium2, then pymupdf, then pdf2image, and raises a message
+# naming all three if none is present -- so pick whichever installs cleanly on
+# your platform. pypdfium2 is listed first because it needs no system package;
+# pdf2image additionally requires poppler (`apt install poppler-utils`).
+-r requirements.txt
+
+pypdfium2>=4.30         # preferred: pure wheel, no system dependency
+# pymupdf>=1.24         # alternative
+# pdf2image>=1.17       # alternative, also needs poppler-utils
+
+huggingface-hub>=0.26   # scripts/download_wave4.py, prep_*.py
+datasets>=3.0           # a few adapters read HF dataset dumps directly
+tqdm>=4.66              # download progress

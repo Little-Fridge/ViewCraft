@@ -1,0 +1,6 @@
+overview_long_edge_px: 768
+crop_long_edge_px: 1024
+select_expr: ""
+pixel_expr: ""
+canvas_expr: ""
+zoom_gate_expr: ""

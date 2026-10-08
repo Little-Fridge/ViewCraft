@@ -1,0 +1,12 @@
+{"id": "count-00", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/00.png"], "answer": "3", "group_key": "image-00", "split": "train"}
+{"id": "count-01", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/01.png"], "answer": "4", "group_key": "image-01", "split": "train"}
+{"id": "count-02", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/02.png"], "answer": "5", "group_key": "image-02", "split": "train"}
+{"id": "count-03", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/03.png"], "answer": "6", "group_key": "image-03", "split": "train"}
+{"id": "count-04", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/04.png"], "answer": "7", "group_key": "image-04", "split": "train"}
+{"id": "count-05", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/05.png"], "answer": "8", "group_key": "image-05", "split": "train"}
+{"id": "count-06", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/06.png"], "answer": "3", "group_key": "image-06", "split": "gate"}
+{"id": "count-07", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/07.png"], "answer": "4", "group_key": "image-07", "split": "gate"}
+{"id": "count-08", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/08.png"], "answer": "5", "group_key": "image-08", "split": "gate"}
+{"id": "count-09", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/09.png"], "answer": "6", "group_key": "image-09", "split": "test"}
+{"id": "count-10", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/10.png"], "answer": "7", "group_key": "image-10", "split": "test"}
+{"id": "count-11", "question": "How many red circles are in the image? Reply with the integer only.", "images": ["images/11.png"], "answer": "8", "group_key": "image-11", "split": "test"}

@@ -1,0 +1,27 @@
+{
+  "snapshot": "passed",
+  "expression_parse": "passed",
+  "skill_words": 441,
+  "deterministic_regeneration": "passed",
+  "source_dimensions": [
+    2800,
+    3600
+  ],
+  "overview_dimensions": [
+    933,
+    1200
+  ],
+  "inspection_crop_dimensions": [
+    1348,
+    696
+  ],
+  "inspection_crop_native_scale": 1.0,
+  "zoom_gain": 2.9999999999999996,
+  "png_sha256": {
+    "input.png": "45482f04530336bb690b199aa0c0c7a4ee7eb50db318ba0dfe8d56114ae9cd56",
+    "preview.png": "0f6f08ad54b7eff3acafc785c1be720aca4af899116bb8f48e1f86076ec6e420"
+  },
+  "model_api_called": false,
+  "model_replay": "pending central execution",
+  "visual_inspection": "passed: complete poster preview and native-resolution service panel; no text clipping observed"
+}

@@ -1,0 +1,8 @@
+id: detail-reading
+title: Detail Reading
+description: Locate and transcribe a small reference code among specification sections using a contextual overview and native-resolution detail crops.
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 6

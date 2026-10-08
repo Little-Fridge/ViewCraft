@@ -1,0 +1,8 @@
+id: screen-grounding
+title: Locate a dashboard button
+description: Resolve repeated GUI controls using task and environment labels, then return a normalized click point in the original screenshot.
+input_type: image
+answer_style: point
+budget:
+  observations: 6
+  max_images_per_request: 6

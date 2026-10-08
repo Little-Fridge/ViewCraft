@@ -1,0 +1,6 @@
+{
+  "question": "In this sequence, what happened immediately before the box was taped shut at 00:12? Answer with the letter of the matching event.",
+  "images": ["frame_01.png", "frame_02.png", "frame_03.png", "frame_04.png", "frame_05.png"],
+  "options": ["A. A blue book was placed in the box.", "B. The box flaps were closed.", "C. A white shipping label was attached.", "D. An orange ball was placed in the box."],
+  "frame_times_s": [0, 4, 8, 12, 16]
+}

@@ -1,0 +1,8 @@
+id: image-comparison
+title: Image Comparison
+description: Compare aligned before and after desk scenes and identify the one object that moved or was replaced.
+input_type: images
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 6

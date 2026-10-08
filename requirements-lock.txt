@@ -1,0 +1,16 @@
+# Historical environment versions retained from the original release.
+# Not a tested cross-platform lock or a guarantee of identical model outputs.
+# For this framework use requirements.txt; see docs/environment.md.
+datasets==5.0.1
+huggingface-hub==1.31.0
+matplotlib==3.11.1
+numpy==2.4.6
+opencv-python-headless==5.0.0.93
+pandas==3.0.5
+pillow==12.3.0
+pyarrow==25.0.1
+pymupdf==1.28.2
+pytest==9.1.1
+PyYAML==6.0.3
+requests==2.34.2
+tqdm==4.70.1

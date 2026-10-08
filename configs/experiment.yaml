@@ -1,0 +1,646 @@
+# ViewCraft experiment configuration.
+#
+# POINT THIS AT YOUR OWN MODELS BEFORE RUNNING ANYTHING:
+#
+#   endpoints.standard      any OpenAI-compatible chat-completions URL.
+#                           The environment variable VIEWCRAFT_ENDPOINT
+#                           overrides it without editing this file.
+#   models.*.resolved_id    the model ids your gateway serves. The executor
+#                           must be vision-capable; the optimizer and the
+#                           verifier only need text+image input over the same
+#                           API shape.
+#
+# Credentials use OPENAI_API_KEY by default; use api_key_env for other names.
+# Legacy AIHub authentication is opt-in; see docs/configuration.md.
+#
+# The budgets/splits blocks retain benchmark defaults from the original package:
+# caps, observation budgets, and the diagnostic/train/gate/test split sizes.
+
+run:
+  seed: 20260911
+models:
+  executor:
+    resolved_id: your-vision-executor-model
+    api_key_env: OPENAI_API_KEY
+    transport: standard
+    provider: google
+    vision_verified: true
+    max_tokens_field: max_tokens
+    reasoning: default
+    temperature: 0.0
+    answer_max_tokens: 2048
+    answer_max_tokens_by_domain:
+      vsi: 6144
+      mvbench: 6144
+      videoholmes: 6144
+      openeqa: 4096
+      stibench: 6144
+      mmiu: 4096
+      slidevqa: 4096
+      chartqa: 4096
+      mmlongdoc: 4096
+      dude: 4096
+      nextgqa: 4096
+      mpdocvqa: 4096
+      syn_count: 4096
+      bv_maze: 4096
+      bv_count_clusters: 4096
+      bv_find_different: 4096
+      bv_find_different_hard: 4096
+      bv_find_different_hard2: 4096
+      bv_maze_real: 4096
+      bv_connect_lines: 4096
+      bvgs_maze: 4096
+      bvgs_count_clusters: 4096
+      bvgs_find_different: 4096
+      bvgs_connect_lines: 4096
+      bvgs_find_shadow: 4096
+      arc: 8192
+  optimizer:
+    resolved_id: your-optimizer-model
+    api_key_env: OPENAI_API_KEY
+    transport: standard
+    temperature: 0.7
+    provider: default
+    vision_verified: true
+    max_tokens_field: max_tokens
+    max_completion_tokens: 16384
+endpoints:
+  standard: http://localhost:8000/v1/chat/completions
+  passthrough: http://localhost:8000/v1/chat/completions
+throughput:
+  provider_rpm:
+    google: 120
+    anthropic: 120
+    openai: 100
+    doubao: 54
+    zhipu: 60
+  default_provider_rpm: 60
+  limiter_burst: 4
+  executor_concurrency: 32
+  optimizer_concurrency: 8
+  verifier_concurrency: 16
+  browser_pool: 8
+  backoff_base_s: 3.0
+  backoff_max_s: 180.0
+  throttle_budget_s: 900.0
+budgets:
+  mmlongdoc:
+    observations: 24
+    max_images_per_request: 8
+  chartqa:
+    observations: 12
+    max_images_per_request: 6
+  vstar:
+    observations: 12
+    max_images_per_request: 6
+  nextgqa:
+    observations: 24
+    max_images_per_request: 8
+  vsi:
+    observations: 24
+    max_images_per_request: 8
+  miniwob:
+    observations: 40
+    max_images_per_request: 4
+    max_actions: 40
+  ocrbench:
+    observations: 12
+    max_images_per_request: 6
+  mmstar:
+    observations: 12
+    max_images_per_request: 6
+  hallusionbench:
+    observations: 12
+    max_images_per_request: 6
+  countbench:
+    observations: 12
+    max_images_per_request: 6
+  syn_count:
+    observations: 16
+    max_images_per_request: 6
+  syn_state:
+    observations: 20
+    max_images_per_request: 6
+  syn_math:
+    observations: 24
+    max_images_per_request: 6
+  babyvision:
+    observations: 12
+    max_images_per_request: 6
+  clbench:
+    observations: 12
+    max_images_per_request: 6
+  arc:
+    observations: 20
+    max_images_per_request: 8
+  muirbench:
+    observations: 16
+    max_images_per_request: 9
+  hrbench:
+    observations: 16
+    max_images_per_request: 8
+  mathvision:
+    observations: 16
+    max_images_per_request: 6
+  spotdiff:
+    observations: 12
+    max_images_per_request: 6
+  tallyqa:
+    observations: 12
+    max_images_per_request: 6
+  nabirds:
+    observations: 12
+    max_images_per_request: 6
+  funsd:
+    observations: 12
+    max_images_per_request: 6
+  realworldqa:
+    observations: 12
+    max_images_per_request: 6
+  scifibench:
+    observations: 16
+    max_images_per_request: 8
+  mmad:
+    observations: 14
+    max_images_per_request: 6
+  rsrcc:
+    observations: 12
+    max_images_per_request: 6
+  bv_maze:
+    observations: 12
+    max_images_per_request: 6
+  bv_count_clusters:
+    observations: 12
+    max_images_per_request: 6
+  bv_find_different:
+    observations: 12
+    max_images_per_request: 6
+  bv_connect_lines:
+    observations: 12
+    max_images_per_request: 6
+  bv_find_different_hard:
+    observations: 12
+    max_images_per_request: 6
+  bv_find_different_hard2:
+    observations: 12
+    max_images_per_request: 6
+  bv_maze_real:
+    observations: 12
+    max_images_per_request: 6
+  bvgs_maze:
+    observations: 12
+    max_images_per_request: 6
+  bvgs_count_clusters:
+    observations: 12
+    max_images_per_request: 6
+  bvgs_find_different:
+    observations: 12
+    max_images_per_request: 6
+  bvgs_connect_lines:
+    observations: 12
+    max_images_per_request: 6
+  bvgs_find_shadow:
+    observations: 12
+    max_images_per_request: 6
+  screenspot_pro:
+    observations: 12
+    max_images_per_request: 6
+  screenspot_v2:
+    observations: 12
+    max_images_per_request: 6
+  mmcomposition:
+    observations: 12
+    max_images_per_request: 6
+  reasonmap:
+    observations: 12
+    max_images_per_request: 6
+  docvqa2026:
+    observations: 24
+    max_images_per_request: 8
+  blink:
+    observations: 12
+    max_images_per_request: 8
+  blink_hard:
+    observations: 12
+    max_images_per_request: 8
+  mpdocvqa:
+    observations: 24
+    max_images_per_request: 8
+  dude:
+    observations: 24
+    max_images_per_request: 8
+  mvbench:
+    observations: 24
+    max_images_per_request: 8
+  perceptiontest:
+    observations: 24
+    max_images_per_request: 8
+  videoholmes:
+    observations: 24
+    max_images_per_request: 8
+  openeqa:
+    observations: 24
+    max_images_per_request: 8
+  stibench:
+    observations: 24
+    max_images_per_request: 8
+  mmiu:
+    observations: 16
+    max_images_per_request: 8
+  slidevqa:
+    observations: 24
+    max_images_per_request: 8
+  mvbench_temporal:
+    observations: 24
+    max_images_per_request: 8
+  mvbench_counting:
+    observations: 24
+    max_images_per_request: 8
+  mvbench_causal:
+    observations: 24
+    max_images_per_request: 8
+  charxiv:
+    observations: 12
+    max_images_per_request: 6
+splits:
+  large_default:
+    diagnostic: 32
+    train: 256
+    gate: 128
+    test: 512
+  mmlongdoc:
+    mode: by_document
+    diagnostic: 10
+    train: 40
+    gate: 12
+    test: 45
+  vstar:
+    mode: by_image
+    diagnostic: 24
+    train: 24
+    gate: 48
+    test: 95
+  miniwob:
+    mode: by_seed
+    diagnostic: 4
+    train: 32
+    gate: 16
+    test: 64
+  ocrbench:
+    mode: by_image
+    diagnostic: 24
+    train: 48
+    gate: 48
+    test: 160
+  mmstar:
+    mode: by_image
+    diagnostic: 24
+    train: 48
+    gate: 48
+    test: 160
+  chartqa:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+  hallusionbench:
+    mode: by_figure
+    diagnostic: 12
+    train: 24
+    gate: 24
+    test: 64
+  nextgqa:
+    mode: by_video
+    diagnostic: 8
+    train: 48
+    gate: 80
+    test: 120
+  vsi:
+    mode: by_scene
+    diagnostic: 8
+    train: 24
+    gate: 80
+    test: 64
+  countbench:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+  syn_count:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  syn_state:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  syn_math:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  babyvision:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  clbench:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  arc:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  muirbench:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  hrbench:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  mathvision:
+    mode: by_image
+    diagnostic: 40
+    train: 160
+    gate: 160
+    test: 400
+  spotdiff:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  tallyqa:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  nabirds:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  funsd:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  videoholmes:
+    mode: by_video
+    diagnostic: 4
+    train: 12
+    gate: 24
+    test: 28
+  openeqa:
+    mode: by_video
+    diagnostic: 3
+    train: 6
+    gate: 12
+    test: 10
+  stibench:
+    mode: by_video
+    diagnostic: 8
+    train: 24
+    gate: 24
+    test: 36
+  mmiu:
+    mode: by_image
+    diagnostic: 30
+    train: 240
+    gate: 240
+    test: 520
+  slidevqa:
+    mode: by_document
+    diagnostic: 5
+    train: 20
+    gate: 20
+    test: 30
+  scifibench:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 80
+    test: 80
+  mmad:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+  rsrcc:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+  bv_maze:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_count_clusters:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_find_different:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_connect_lines:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_find_different_hard:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_find_different_hard2:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bv_maze_real:
+    mode: by_image
+    diagnostic: 4
+    train: 14
+    gate: 6
+    test: 20
+  bvgs_maze:
+    mode: by_image
+    diagnostic: 24
+    train: 140
+    gate: 36
+    test: 20
+  bvgs_count_clusters:
+    mode: by_image
+    diagnostic: 24
+    train: 140
+    gate: 36
+    test: 20
+  bvgs_find_different:
+    mode: by_image
+    diagnostic: 24
+    train: 140
+    gate: 36
+    test: 20
+  bvgs_connect_lines:
+    mode: by_image
+    diagnostic: 24
+    train: 140
+    gate: 36
+    test: 20
+  bvgs_find_shadow:
+    mode: by_image
+    diagnostic: 24
+    train: 140
+    gate: 36
+    test: 20
+  screenspot_pro:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 224
+  screenspot_v2:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 142
+  mmcomposition:
+    mode: by_image
+    diagnostic: 12
+    train: 48
+    gate: 64
+    test: 151
+  reasonmap:
+    mode: by_image
+    diagnostic: 1
+    train: 3
+    gate: 2
+    test: 2
+  docvqa2026:
+    mode: by_document
+    diagnostic: 2
+    train: 8
+    gate: 5
+    test: 10
+  blink:
+    mode: by_image
+    diagnostic: 24
+    train: 96
+    gate: 96
+    test: 320
+  blink_hard:
+    mode: by_image
+    diagnostic: 24
+    train: 96
+    gate: 96
+    test: 160
+  realworldqa:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+  mpdocvqa:
+    mode: by_document
+    diagnostic: 12
+    train: 50
+    gate: 20
+    test: 60
+  dude:
+    mode: by_document
+    diagnostic: 8
+    train: 30
+    gate: 12
+    test: 40
+  mvbench:
+    mode: by_video
+    diagnostic: 20
+    train: 96
+    gate: 96
+    test: 200
+  perceptiontest:
+    mode: by_video
+    diagnostic: 20
+    train: 96
+    gate: 96
+    test: 200
+  mvbench_temporal:
+    mode: by_video
+    diagnostic: 20
+    train: 96
+    gate: 96
+    test: 200
+  mvbench_counting:
+    mode: by_video
+    diagnostic: 20
+    train: 96
+    gate: 96
+    test: 200
+  mvbench_causal:
+    mode: by_video
+    diagnostic: 20
+    train: 96
+    gate: 96
+    test: 200
+  charxiv:
+    mode: by_image
+    diagnostic: 16
+    train: 64
+    gate: 96
+    test: 160
+applicability_thresholds:
+  oracle_success_min: 0.8
+  baseline_wrong_oracle_right_min: 0.15
+  evidence_completeness_min: 0.9
+evolution:
+  rounds: 4
+  gate_question_cap: 96
+  gate_question_cap_by_domain:
+    videoholmes: 200
+    openeqa: 140
+  test_question_cap: 240
+  candidates_per_round: 1
+  train_batch_size: 24
+  strategy_book: true
+  max_submissions_per_round: 4
+  max_gate_evaluations_per_round: 2
+  viewcraft_visual_fallback: true
+  arms:
+  - viewcraft
+watchdog:
+  interval_s: 1800

@@ -1,0 +1,5 @@
+max_images_per_request: 4
+history_keep_last_n: 2
+layout_expr: ""
+view_contract: ""
+answer_contract: "Return the requested integer only in the answer field."

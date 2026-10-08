@@ -1,0 +1,65 @@
+{
+  "item_id": "gallery/screen-grounding",
+  "domain": "custom",
+  "split": "inference",
+  "arm": "viewcraft",
+  "condition": "normal",
+  "config_hash": "ffa464e9f0c83ab21a3f15875282e133af4e853f0a6e3103a7ee7b6f9e5eef2a",
+  "protocol_hash": "075b867feee8e3cb29c2479487810e898953226d8c3994244a828f528aa2bff0",
+  "environment_seed": null,
+  "answer_text": "0.8903, 0.7805",
+  "parsed_answer": null,
+  "score": null,
+  "scored_by": "",
+  "views": [
+    {
+      "view_id": "full_a3efb7e6f7e5",
+      "source_media_id": "input/input.png",
+      "kind": "full",
+      "long_edge_px": 1600,
+      "out_w": 1600,
+      "out_h": 1000,
+      "src_w": 1600,
+      "src_h": 1000,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 1.0,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdpDKOuEMinM9feF59I5uK6Ar0U",
+      "bytes_len": 109902,
+      "created_by": "phi.overview"
+    }
+  ],
+  "request_ids": [
+    "chatcmpl-EWhdpDKOuEMinM9feF59I5uK6Ar0U"
+  ],
+  "observation_steps": 1,
+  "n_actions": 0,
+  "malformed_zooms": 0,
+  "refused_zooms": 0,
+  "selected_units": [],
+  "canvas_notes": [],
+  "input_tokens": 3352,
+  "output_tokens": 25,
+  "wall_time_s": 7.276103531010449,
+  "exec_result": {
+    "passed": true,
+    "violations": []
+  },
+  "grounding": null,
+  "status": "ok",
+  "error": "",
+  "notes": "",
+  "sent_pixels": 1600000,
+  "n_images_sent": 1,
+  "unit_key": "24f17a94b9c403ae48989b89768db1c72a9ca9bd90320f01fafaf43d0bf029ef"
+}

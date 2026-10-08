@@ -1,0 +1,65 @@
+{
+  "item_id": "gallery/chart-reading",
+  "domain": "custom",
+  "split": "inference",
+  "arm": "viewcraft",
+  "condition": "normal",
+  "config_hash": "620e2d287e8f97b172e43f06908a4ca38ab19e8019c8293e17f460c931f8618c",
+  "protocol_hash": "6c13dc5559eb4414750e1ccb2025098c0939e01a7f3b6d2ee3c3dd00666005e5",
+  "environment_seed": null,
+  "answer_text": "55",
+  "parsed_answer": null,
+  "score": null,
+  "scored_by": "",
+  "views": [
+    {
+      "view_id": "full_5f6f8af2a12a",
+      "source_media_id": "input/input.png",
+      "kind": "full",
+      "long_edge_px": 1600,
+      "out_w": 1600,
+      "out_h": 1100,
+      "src_w": 1600,
+      "src_h": 1100,
+      "parent_view_id": null,
+      "region": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 1.0,
+        "y1": 1.0
+      },
+      "page_index": null,
+      "seconds": null,
+      "scale": 1.0,
+      "upscaled": false,
+      "ui_state_version": null,
+      "actually_sent": true,
+      "request_id": "chatcmpl-EWhdFYfMQiKphdNiMXJ1HmZPsrTPi",
+      "bytes_len": 129020,
+      "created_by": "phi.overview"
+    }
+  ],
+  "request_ids": [
+    "chatcmpl-EWhdFYfMQiKphdNiMXJ1HmZPsrTPi"
+  ],
+  "observation_steps": 1,
+  "n_actions": 0,
+  "malformed_zooms": 0,
+  "refused_zooms": 0,
+  "selected_units": [],
+  "canvas_notes": [],
+  "input_tokens": 3535,
+  "output_tokens": 37,
+  "wall_time_s": 4.71010403893888,
+  "exec_result": {
+    "passed": true,
+    "violations": []
+  },
+  "grounding": null,
+  "status": "ok",
+  "error": "",
+  "notes": "March: physical books (blue) 180 minus digital books (teal) 125 = 55.",
+  "sent_pixels": 1760000,
+  "n_images_sent": 1,
+  "unit_key": "8b690de12c84760318fa66243b2926a475e114d936c96b4062e961aec593ea68"
+}

@@ -1,0 +1,8 @@
+id: temporal-order
+title: Temporal Order
+description: Find the event immediately before or after an anchor in timestamped scene frames.
+input_type: frames
+answer_style: letter
+budget:
+  observations: 6
+  max_images_per_request: 6

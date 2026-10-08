@@ -1,0 +1,39 @@
+# GPT-6 example for a compatible endpoint. Set OPENAI_API_KEY and VIEWCRAFT_ENDPOINT.
+# Some gateways require a routed model ID; override with VIEWCRAFT_EXECUTOR_MODEL.
+# This model accepts only its default temperature, so temperature is omitted.
+models:
+  executor:
+    resolved_id: gpt-6-astra
+    transport: standard
+    provider: openai
+    api_key_env: OPENAI_API_KEY
+    answer_max_tokens: 8192
+    max_tokens_field: max_completion_tokens
+  optimizer:
+    resolved_id: gpt-6-astra
+    transport: standard
+    provider: openai
+    api_key_env: OPENAI_API_KEY
+    max_tokens_field: max_completion_tokens
+    answer_max_tokens: 8192
+endpoints:
+  standard: http://localhost:8000/v1/chat/completions
+  passthrough: http://localhost:8000/v1/chat/completions
+throughput:
+  default_provider_rpm: 30
+  provider_rpm: {}
+  limiter_burst: 2
+  backoff_base_s: 2
+  backoff_max_s: 30
+  throttle_budget_s: 120
+run:
+  seed: 42
+evolution:
+  rounds: 4
+  train_batch_size: 24
+  gate_question_cap: 0
+  test_question_cap: 0
+  strategy_book: true
+  viewcraft_visual_fallback: true
+  max_submissions_per_round: 4
+  max_gate_evaluations_per_round: 2

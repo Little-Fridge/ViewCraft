@@ -1,0 +1,6 @@
+# Core runtime and benchmark adapters; no local model runtime.
+pillow>=11.0
+numpy>=1.26
+pyarrow>=18.0
+pyyaml>=6.0
+requests>=2.32

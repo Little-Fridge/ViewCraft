@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "scope": "offline asset and configuration validation only",
+  "checks": [
+    "Coordinates.read_snapshot",
+    "Chain._assert_expressions_parse",
+    "actual two-source layout rendering",
+    "skill word count",
+    "request and metadata structure",
+    "byte-reproducible PNGs",
+    "same base scene with one translated mug",
+    "both empty coaster locations verified",
+    "all other scene pixels unchanged"
+  ],
+  "skill_word_count": 447,
+  "config_hash": "5c3de329db0559c86c36cf4d7db1b50079a4e7466d8450a763bb942317ea80b2",
+  "image_size": [
+    1400,
+    1050
+  ],
+  "preview_size": [
+    2454,
+    989
+  ],
+  "allowed_change_regions_px": [
+    [
+      160,
+      198,
+      340,
+      363
+    ],
+    [
+      1081,
+      739,
+      1261,
+      904
+    ]
+  ],
+  "inputs": [
+    {
+      "file": "input_01.png",
+      "sha256": "4aeca306046fa2643ec9782107099dc4d0af90c1aea33d66acb465bc0b2a8ed8"
+    },
+    {
+      "file": "input_02.png",
+      "sha256": "6c3bf01ae632e4cef7ff4839ba840b447857938c5ae319e8c02d89d7f41e8a63"
+    }
+  ],
+  "model_run_performed": false,
+  "model_replay": "pending main-agent run"
+}

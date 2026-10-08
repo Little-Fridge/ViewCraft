@@ -1,0 +1,27 @@
+{
+  "snapshot": "passed",
+  "expression_parse": "passed",
+  "skill_words": 444,
+  "deterministic_regeneration": "passed",
+  "source_dimensions": [
+    1600,
+    1000
+  ],
+  "source_geometry": "passed: identity RGB, full-resolution overview, no compositing",
+  "point_region": [
+    0.85,
+    0.76,
+    0.93,
+    0.8
+  ],
+  "expected_answer": "0.8900, 0.7800",
+  "fixture_bounds": "passed",
+  "sha256": {
+    "input.png": "59c18a36f1dcf1274154b3e5f93a29199a26dd3e31f7efa2d25a34ec062c093a",
+    "request.json": "d92caf4b478909c57ded04731a36f461f9076d1112ef2e5ff565fbd9f9af0d46",
+    "expected.json": "ba6398ad7fa3781b56b940d5e4455ab96eb96bfed16a1f958c482430f0a81d3b"
+  },
+  "config_hash": "ffa464e9f0c83ab21a3f15875282e133af4e853f0a6e3103a7ee7b6f9e5eef2a",
+  "model_api_called": false,
+  "model_replay": "pending central execution"
+}

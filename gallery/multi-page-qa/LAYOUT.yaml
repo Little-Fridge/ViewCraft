@@ -1,0 +1,20 @@
+keep_overview: true
+annotate_overview_boxes: false
+history_keep_last_n: 2
+order: overview_first
+evict_policy: keep_overview_drop_crops
+max_images_per_request: 6
+layout_expr: ""
+view_contract: >-
+  Each full source image is a separate report page. Read printed page numbers
+  and section headings to locate evidence. Source identifiers are supplied below;
+  use these identifiers for page requests and crops, since printed page numbers
+  need not equal runtime indices. Keep facts associated with their page, period,
+  entity, and units. Any crop retains the source mapping shown below.
+  {image_lines}
+answer_contract: >-
+  Once the required facts are readable, return action=answer with the concise
+  requested result in the final field. If the question asks for a number only,
+  final must contain only that number. Answer directly without another observation
+  when the visible pages already provide sufficient evidence.
+protocol_contract: ""

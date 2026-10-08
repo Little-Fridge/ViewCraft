@@ -1,0 +1,22 @@
+[
+  {
+    "step": 1,
+    "images": [
+      "views/step-01-01.png"
+    ],
+    "status": "ok",
+    "response": "{\"action\":\"answer\",\"answer\":\"PO-48271\"}",
+    "model": "gpt-6-astra",
+    "request_id": "chatcmpl-EWhdFiLCqnYPsPLwpKq8d9vWlYRdc",
+    "usage": {
+      "input_tokens": 3344,
+      "output_tokens": 15,
+      "total_tokens": 3359,
+      "cached_tokens": 0,
+      "reasoning_tokens": 0
+    },
+    "seconds": 3.549728201236576,
+    "from_cache": false,
+    "recorded_at": "2026-10-08T12:35:27.618035+00:00"
+  }
+]

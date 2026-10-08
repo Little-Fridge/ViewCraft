@@ -1,0 +1,39 @@
+# Portable model settings for scripts/evolve.py and scripts/predict.py.
+# Both roles must accept images. Verification uses the frozen executor.
+models:
+  executor:
+    resolved_id: your-vision-executor-model
+    transport: standard
+    provider: default
+    api_key_env: OPENAI_API_KEY
+    temperature: 0.0
+    answer_max_tokens: 2048
+    max_tokens_field: max_tokens
+  optimizer:
+    resolved_id: your-vision-optimizer-model
+    transport: standard
+    provider: default
+    api_key_env: OPENAI_API_KEY
+    temperature: 0.7
+    max_tokens_field: max_tokens
+endpoints:
+  standard: http://localhost:8000/v1/chat/completions
+  passthrough: http://localhost:8000/v1/chat/completions
+throughput:
+  default_provider_rpm: 30
+  provider_rpm: {}
+  limiter_burst: 2
+  backoff_base_s: 2
+  backoff_max_s: 30
+  throttle_budget_s: 120
+run:
+  seed: 42
+evolution:
+  rounds: 4
+  train_batch_size: 24
+  gate_question_cap: 0
+  test_question_cap: 0
+  strategy_book: true
+  viewcraft_visual_fallback: true
+  max_submissions_per_round: 4
+  max_gate_evaluations_per_round: 2

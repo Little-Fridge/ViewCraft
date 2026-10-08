@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use ViewCraft, please cite the accompanying preprint."
+title: "ViewCraft: Evolving What Multimodal Agents See and How They Read It"
+type: software
+authors:
+  - family-names: Xu
+    given-names: Binxiao
+  - family-names: An
+    given-names: Ruichuan
+  - family-names: Zou
+    given-names: Bocheng
+  - family-names: Du
+    given-names: Weihua
+  - family-names: Wei
+    given-names: Xinyu
+  - family-names: Guo
+    given-names: Hangyu
+  - family-names: Yan
+    given-names: Renye
+  - family-names: Zhang
+    given-names: YiFan
+  - family-names: Hua
+    given-names: Hang
+repository-code: "https://github.com/Little-Fridge/ViewCraft"
+license: MIT

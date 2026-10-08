@@ -1,0 +1,5 @@
+{
+  "question": "The first image is BEFORE and the second image is AFTER. Exactly one item has moved on this desk; all other items stayed in place. Which item moved? Answer only with its color and common object name.",
+  "images": ["input_01.png", "input_02.png"],
+  "options": []
+}
