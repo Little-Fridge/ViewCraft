@@ -148,3 +148,16 @@ def test_marker_correction_refreshes_existing_crop_from_clean_pixels(tmp_path):
         {'action': 'note', 'image': 2, 'notes': [{'at': [.2, .2], 'id': 'A', 'text': 'no'}]}])
     crop = calls[3][1][-1]
     assert crop.crop((60, 56, 104, 74)).getcolors(128*128) == [(44*18, (100, 40, 200))]
+
+
+@pytest.mark.parametrize('n', [1, 13])
+def test_protocol_examples_address_available_sources_and_images(tmp_path, n):
+    import re
+    calls, _ = run(tmp_path, [], n=n)
+    text, images = calls[0]
+    for block in re.findall(r'```json\s*(.*?)```', text, re.DOTALL):
+        action = json.loads(block)
+        for unit in action.get('units', []):
+            assert 0 <= unit < n, 'protocol teaches a nonexistent source unit'
+        for note in action.get('notes', []):
+            assert 1 <= note.get('image', 1) <= len(images)

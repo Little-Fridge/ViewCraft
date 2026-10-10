@@ -642,6 +642,14 @@ def build_task_prompt(item: PublicItem, coords: Coordinates,
     _meta = item.meta or {}
     pool_size = int(_meta.get("full_pool_size") or _meta.get("n_frames")
                     or _meta.get("n_pages") or len(item.media_ids) or 1)
+    source_pool = tuple(_meta.get("source_pool", item.media_ids))
+    attached_sources = {v.record.source_media_id for v in (visible or [])}
+    unseen_units = [i for i, source in enumerate(source_pool)
+                    if source not in attached_sources]
+    view_example = json.dumps((unseen_units or list(range(pool_size)))[:3])
+    compose_example = json.dumps(list(range(min(pool_size, 4))))
+    marker_image = next((i for i, v in enumerate(visible or [], 1)
+                         if v.record.source_media_id in source_pool), 1)
     lines = [f"Question: {item.question}"]
     if item.options:
         lines.append("\nOptions:")
@@ -733,14 +741,14 @@ def build_task_prompt(item: PublicItem, coords: Coordinates,
             "any region or point, and the system will resolve it exactly.")
     else:
         preamble = (
-            "You are looking at a high-resolution image that has been "
-            "downscaled to fit the view budget, so small objects may be "
-            "unreadable. You may request a zoomed view of any region of any "
+            "Images may be downscaled to fit the view budget. You may "
+            "request a zoomed view of any region of any "
             "attached image -- including zooming INSIDE a zoom you already "
             "have, to go progressively finer. Coordinates are normalised "
             "[0,1] in the frame of the image you name: (0,0) is its "
             "top-left and (1,1) its bottom-right. A zoom re-reads the "
-            "original file, so it recovers real detail.")
+            "original file and can recover detail lost to downscaling; it "
+            "cannot add detail beyond the source resolution.")
     custom_protocol = str(getattr(coords.psi, "protocol_contract", "") or "").strip()
     if custom_protocol:
         # EVOLVED PROTOCOL (psi.protocol_contract): the optimizer rewrote the
@@ -783,7 +791,7 @@ want to remember). Notes accumulate across steps and stay visible on later
 views of the same source -- including inside your zooms. Give points in the
 frame of the image you name:
 ```json
-{{"action": "note", "notes": [{{"at": [0.52, 0.31], "id": "3", "text": "counted", "image": 2}}],
+{{"action": "note", "notes": [{{"at": [0.52, 0.31], "id": "3", "text": "counted", "image": {marker_image}}}],
   "note": "what you are marking"}}
 ```
 
@@ -791,14 +799,14 @@ Use up to 32 markers per action. Reuse a marker ID on the same source to
 correct its position or text; different IDs remain distinct even when close.
 
 To see source units NOT currently attached (the pool has {pool_size} units,
-0-based indices; the first images you were shown are a subset of it):
+0-based indices; the first images you were shown may be a subset of it):
 ```json
-{{"action": "view", "units": [8, 11, 14], "note": "why these units"}}
+{{"action": "view", "units": {view_example}, "note": "why these units"}}
 ```
 To tile several units into ONE labelled comparison sheet (useful when the
 evidence is spread across more units than you can hold at once):
 ```json
-{{"action": "compose", "units": [0, 4, 9, 13], "cols": 2, "note": "compare"}}
+{{"action": "compose", "units": {compose_example}, "cols": 2, "note": "compare"}}
 ```
 Each view/compose call shows at most the per-request image budget of units;
 across steps you can page through the whole pool.
