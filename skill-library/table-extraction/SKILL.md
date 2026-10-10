@@ -5,26 +5,12 @@ description: Convert scanned tables, PDF pages and screenshots to CSV, JSON or M
 
 # Visual Table Extraction
 
-## Use
-Accept table images or PDF pages and the desired output format and columns. When raw PDF input is available, use the repository CLI's `--pdf` and optional `--pages`. Preserve source order across pages.
+1. **Write the column schema before the rows.** Locate the table boundaries, all header levels, row-label columns, units and footnotes. Flatten nested headers into names such as `2025 / Revenue (USD)`. Record the column order in the action's `note`; use it for every subsequent band.
+2. **Read a small row band.** Crop about 5–10 readable rows with the left-hand row keys and all requested columns. For a wide table, crop left and right halves with one shared key column. Join by that key, never by guessed row alignment. Include the last row of the previous band as a boundary check.
+3. **Save each completed row.** Record `page + row key -> [cell1, cell2, ...]` in `note` before moving on. Propagate a merged group label only to rows inside its visible span. Keep IDs such as `0017` as strings; preserve signs, decimals and units. Distinguish literal zero, blank, dash and illegible text. Use JSON `null` for unreadable values, not for a printed zero.
+4. **Join pages carefully.** Read the next page's header before appending rows. Remove repeated headers from data. If the first row continues the previous page's last row, match the key and complete that row instead of adding a duplicate. A repeated product code in a different section needs a section-qualified key.
+5. **Audit before formatting.** Check every row has the schema's column count. Re-read disputed cells with neighboring row labels. Recalculate printed subtotals to flag transcription errors, but never change a visible source value merely to force agreement. If the source itself disagrees, preserve it and report the discrepancy when the output format permits.
 
-## Recover the schema
-Identify table boundaries, header levels, row keys, units and footnotes before extracting values. Flatten a multi-level header into an unambiguous name such as `2025 / Revenue (USD)` if a flat format is requested. Distinguish data columns from row labels and subtotal columns.
+Return valid CSV, JSON or Markdown as requested. In CSV, quote cells containing separators, quotes or newlines and double embedded quotes. Apply requested filtering after row extraction. If the budget cannot cover all rows, identify the last completed source row and the unprocessed range rather than returning a partial table as complete.
 
-## Read in bands
-1. Inspect overlapping row bands at native source detail while retaining the relevant headers.
-2. Keep a ledger keyed by a stable row label plus its source location. Row position alone is insufficient when repeated sections restart numbering.
-3. Propagate a merged label only across its visible span or an explicit document convention. Do not fill every blank with the previous value.
-4. For continued tables, match column structure across pages, remove repeated headers from the data and reconcile rows split at page boundaries.
-
-## Preserve values
-Keep identifiers with leading zeros as strings. Distinguish zero, blank, dash, not-applicable and illegible. Preserve signs, decimals, currency and displayed precision. If a glyph is uncertain, re-read its original crop; totals may flag an issue but cannot supply the missing digit. Do not silently normalize ambiguous date or decimal conventions.
-
-## Validate structure
-Check row widths, header ownership, duplicate boundary rows and whether merged headings shifted a value into the wrong column. Recompute visible totals only as an audit; report discrepancies without correcting the source. Apply requested filters after extraction so they do not change interpretation of neighboring labels.
-
-## Deliver
-Return valid CSV, JSON or Markdown as requested. Escape embedded quotes and separators in CSV. For strict machine-readable output, keep commentary outside the payload only when allowed; use null for illegible JSON values and a consistent explicit token for CSV if needed. Include page/row provenance when requested, with an uncertainty list keyed to affected cells.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

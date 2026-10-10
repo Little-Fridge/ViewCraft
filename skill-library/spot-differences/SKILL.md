@@ -5,23 +5,12 @@ description: Compare paired images to localize additions, removals, movements an
 
 # Visual Difference Inspection
 
-## Use
-Accept two labeled images and the comparison scope. Preserve the supplied A/B or before/after order; two unlabeled pictures do not establish chronology.
+1. **Fix A/B identity.** Use the supplied before/after order. Find two or more unchanged landmarks, such as corners or fixed fixtures. Compare their spacing and orientation to separate camera shift, zoom and rotation from an object's movement. If viewpoints differ, compare only mutually visible areas.
+2. **Sweep matching areas.** Split the scene at stable landmarks, or use quadrants. Inspect each A region beside its B counterpart, then `zoom` both when needed. Crop coordinates may differ between images. Include a shared landmark in each crop to verify correspondence.
+3. **Record candidates once.** Save `D1 | object | A location | B location | candidate change` in the action's `note`, plus checked regions. Check presence, shape, color, orientation and text. Consolidate several changed parts of one object into one finding unless the user requests individual edits.
+4. **Distinguish movement from removal.** For every apparent disappearance, search the entire B image for matching shape, markings and accessories. Pair departure and arrival as one relocation. For an apparent addition, search A. If several identical objects prevent identity matching, report the observable positional difference without inventing identity.
+5. **Make a reverse pass.** Sweep B against A to catch additions missed by the first pass. Reinspect candidates at matched scale. Lighting, shadows, compression and newly uncovered background are not automatically object changes. An advertised number of differences is a reason to recheck, never a quota to fill.
 
-## Align the views
-Find at least two stable landmarks where possible. Check global translation, scale, rotation and perspective before treating displacement as an object change. For screenshots, align the same panel and scroll position. For photographs, exclude regions newly revealed by a viewpoint change from confident removal claims.
+Return one finding per change, with type and paired locations. For requested boxes, report normalized coordinates in the original A and B images; map crop-local coordinates through the runtime's crop bounds. Use `null` only for a verified missing counterpart. Leave unresolved identity matches explicit.
 
-## Compare corresponding regions
-1. Sweep matched regions in a consistent order, retaining a record of checked areas.
-2. For each candidate, inspect the corresponding native-source crop in both images at comparable scale, together with enough surrounding context to establish location.
-3. Check presence, shape, orientation, attributes and visible text according to the user's request. Use pixel-level differences only to find candidates: anti-aliasing, compression and illumination can change pixels without changing content.
-4. When an object disappears at its old position, search the other full image before classifying it as removed. Match identity by distinctive features; repeated identical objects may prevent a unique match.
-
-## Consolidate findings
-Group several changed pixels belonging to one edit into a single finding. Do not count both departure and arrival of one relocated object as two independent changes. Distinguish a changed label from a change in the depicted physical object. An expected number of differences is a check to investigate, not a quota to fill.
-
-## Deliver
-Provide an ordered list or table with change type, concise description, location in A, location in B and any uncertainty. If coordinates are requested, use normalized original-image boxes `[x0,y0,x1,y1]`, top-left origin, separately labeled A and B; use null for a genuinely absent counterpart. Never report crop-local coordinates as original-image coordinates.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

@@ -201,6 +201,8 @@ class ViewRecord:
     bytes_len: int = 0
     created_by: str = ""                    # which phi/psi rule produced it
 
+    source_units: tuple[int, ...] = ()      # ordered members of a composite
+
     @property
     def pixels(self) -> int:
         return self.out_w * self.out_h

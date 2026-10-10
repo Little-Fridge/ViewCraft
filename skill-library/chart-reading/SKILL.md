@@ -5,25 +5,12 @@ description: Read statistical charts and dashboards, extract supported values an
 
 # Chart Analysis & Quantitative Reasoning
 
-## Use
-Accept a chart, dashboard or paper figure and a question. Identify the relevant panel and metric before reading marks; similarly colored series in separate panels need not have the same meaning.
+1. **Select the panel and decode its scale.** Read metric, unit, category/time axis and legend. Match the requested series to its line or bar style. Check for two y-axes, a nonzero baseline, reversed direction or logarithmic ticks before estimating values.
+2. **Collect just the required operands.** Crop the relevant marks with neighboring labeled ticks; inspect the legend separately if needed. Record `panel | series | category | value | unit | printed/estimated` in the action's `note`. Prefer printed labels. For a stacked bar, read both boundaries and subtract; the upper boundary is a cumulative total.
+3. **Interpolate on the correct axis.** On a linear axis between ticks `(p0,v0)` and `(p1,v1)`, estimate `v=v0+(p-p0)/(p1-p0)*(v1-v0)`. On a log axis, interpolate `log(v)` instead. Here `p` is position along the axis; reversed pixel direction is handled by the same ratio. Use only precision supported by tick spacing and image detail.
+4. **Compute after reading.** Absolute change is `new-old`; relative change is `(new-old)/old`. A move from 20% to 25% is 5 percentage points or 25% relative growth. A zero baseline makes relative growth undefined. Check that both operands refer to the same population, period and unit; for rates over irregular intervals, divide by elapsed time.
+5. **Cross-check the conclusion.** Reinspect the series label and the two marks determining the answer. For rankings, include ties or overlapping estimate ranges. Read the legend's definition of error bars; overlap alone does not establish statistical significance. Do not infer a missing value by extending a trend.
 
-## Decode the chart
-Read title, axes, units, legend and footnotes. Check logarithmic, reversed, truncated and dual axes. Associate each series with its own scale. Identify whether marks show individual values, cumulative totals, stacked components, percentages or uncertainty ranges.
+Return the requested comparison, operands, units and a short calculation. Label visual estimates as approximate. If resolution cannot distinguish two candidates, report the tie or interval that the chart supports.
 
-## Extract with context
-Keep a chart overview while cropping the requested series together with ticks and legend context. Prefer printed values over estimates from position. For unlabeled bars or points, interpolate only within the actual axis scale and report approximation. A stacked segment's value is the difference between its boundaries, not the height of its upper boundary.
-
-Track a small evidence table: panel, series, category/time, value, unit and whether printed or estimated. Read all operands before calculating. Do not fill a missing point by assuming a smooth trend.
-
-## Compute the requested comparison
-Use `(new - old) / old` for relative change and `new - old` for an absolute or percentage-point difference. Identify the denominator and handle a zero baseline explicitly. Align the same period and population before comparing series. For irregular intervals, compare rates per unit time when the question asks about speed of change.
-
-## Check interpretation
-Keep confidence intervals, standard deviations and standard errors distinct using the legend. Visual overlap alone does not establish statistical significance. A rising pair of series establishes visual association, not causation. If several panels or scales support different readings, name the one used.
-
-## Deliver
-Answer with series/category, values, units, concise calculation and precision supported by the source. Mention only ambiguities that affect the conclusion. Supply a structured evidence table when several comparisons are requested.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

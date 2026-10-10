@@ -687,7 +687,7 @@ def _draw_note_labels(img, notes: list):
             continue
         px, py = float(n["x"]) * (w - 1), float(n["y"]) * (h - 1)
         text = str(n.get("text", "") or "")[:12]
-        label = str(i) + (f":{text}" if text else "")
+        label = str(n.get("id") or i) + (f":{text}" if text else "")
         # dark backing so the label reads on any background
         d.rectangle([px + 4, py - 7, px + 4 + 7 * len(label), py + 8],
                     fill=(0, 0, 0))

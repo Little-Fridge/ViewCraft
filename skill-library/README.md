@@ -65,6 +65,18 @@ Add `--check` to validate the skill and prepare the inputs without model calls o
 
 The observation budget controls how many inspection steps are available. Long tables and documents may need narrower questions or larger budgets in `skill.yaml`. Failed or incomplete execution is reported rather than treated as a successful answer.
 
+## Multi-step inspection
+
+The runtime labels every attachment with its source unit and file/page or timestamp. `view` and `compose` use zero-based **source units**; `zoom` and canvas markers use the current one-based **Image numbers**. Image numbers can change between steps, so keep working records keyed by source unit or filename/page.
+
+Each action's top-level `note` carries concise observations to subsequent calls, including the final call. Store new facts and explicit corrections, rather than repeating the entire history. For example, a counting step can save:
+
+```json
+{"action":"zoom","image":1,"regions":[{"x0":0.5,"y0":0,"x1":1,"y1":0.5}],"note":"Region A complete: A01-A12 accepted, subtotal 12. Inspect region B next."}
+```
+
+Canvas markers are optional. Give each object a stable `id`; reusing that ID on the same source updates its marker. Distinct IDs remain separate even when objects are close. These records track the model's observations; they do not independently verify that an observation is correct.
+
 ## Use in another visual agent
 
 Give the agent the relevant `SKILL.md`, or copy its folder into the agent's supported skills directory. The agent needs image inspection and cropping tools; PDF and video tasks also need rendering or frame extraction. The reading workflow can be used directly. `VIEW.yaml` and `LAYOUT.yaml` are executed by ViewCraft and are not automatically interpreted by other agents.

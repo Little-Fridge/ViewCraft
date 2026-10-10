@@ -5,24 +5,14 @@ description: Answer questions about PDF reports, papers and manuals by locating 
 
 # PDF Research & Evidence Extraction
 
-## Use
-Accept a PDF, a selected page range, or page images. For a raw PDF, run the repository CLI with `--pdf report.pdf`; it renders pages and supplies the source map automatically. A host agent with its own PDF tools can render and inspect the same pages directly. For long documents, use the contents page to choose sections, then run with `--pages 2-8,21-25`.
+1. **Make an answer checklist.** Split the question into fields: entity, metric, period, unit, comparison and requested explanation. For “compare cost and accuracy”, cost and accuracy need separate evidence. Do not stop after finding one.
+2. **Find the right pages.** Use `view` to open the contents or first page if absent. Match headings to the checklist; translate printed page numbers through the supplied file-page map. Open likely pages and their continuations. Record irrelevant pages as checked so they are not searched twice. Uniform previews do not cover the entire document.
+3. **Read one evidence block at a time.** Use `zoom` on a paragraph, figure or table, including its heading, unit and applicable footnote. Read columns vertically. For a continued table, read the original header and continuation rows together; match columns by header, not horizontal position alone.
+4. **Save facts before changing pages.** In each action's `note`, record `field | value/quote | unit | filename:file-page | qualifier`. Example record shape: `accuracy | 84.2 | % | report.pdf:12 | test split, model B`. Mark missing fields `unresolved`. This is a working record, not a suggested answer.
+5. **Join and check.** Before subtracting or comparing, match the population, period and measurement definition. Reopen the cited block if a number conflicts with prose. Read all components of a requested field, including a second line or nearby qualifier. Never reconstruct a blurred digit from what a total ought to be.
 
-## Locate the evidence
-1. Convert the question into the specific entities, periods, metrics and conditions needed. A request for both method and result needs evidence for both.
-2. Read the contents, headings and captions to identify likely pages. Initial previews are navigation aids, not evidence that every supplied page was inspected. Request missing source units from the pool before concluding a fact is absent.
-3. Keep a compact evidence ledger: requested fact, document, file page, printed page if visible, region, observed value and qualifier. Distinguish the PDF's physical page index from its printed page label.
+Return the answer with a source for each requested field; distinguish printed values from your calculations. Identify remaining gaps by field. Use the filename and 1-based file page, adding the printed page label when visible.
 
-## Build readable views
-Keep the full page beside a native-source crop of the relevant paragraph, figure or table. Include the caption, units and footnotes that change its meaning. If a table continues onto the next page, inspect the header and continuation together. Read a multi-column page in column order; do not splice text horizontally across unrelated columns.
+The runner renders PDFs with `--pdf`; `view` selects existing page images and `zoom` crops them. Neither rerenders a PDF at higher resolution. If native pixels are unreadable, identify the affected page and request a higher-resolution page image.
 
-For cross-page questions, collect every required operand before calculating. Check that comparisons use the same population, unit, time window and experimental setting. A figure's approximate visual estimate must not silently replace an exact value printed elsewhere.
-
-## Resolve gaps
-If extraction and the rendered page disagree, inspect the visible glyphs. For scans, use OCR only as a search aid when available. Request a larger source render for illegible text; repeated enlargement of an already blurred bitmap adds no evidence. Report conflicting statements with both locations rather than choosing whichever fits the question.
-
-## Deliver
-Lead with the answer, then cite each supporting claim as `filename, file p. N (printed p. X when visible)`. For multiple requested fields, return one row per field with value, units and source. Separate source statements from calculations. State which requested facts remain unsupported and which page ranges were actually inspected.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

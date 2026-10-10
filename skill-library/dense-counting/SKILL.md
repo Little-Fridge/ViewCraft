@@ -5,25 +5,12 @@ description: Count crowded objects under category and attribute constraints usin
 
 # Dense Object Counting
 
-## Use
-Accept an image and a target definition, such as visible screws of one type, occupied seats, or red markers. Establish whether partially visible instances count. A visible count cannot establish the hidden inventory behind occlusions.
+1. **Define one countable object.** State the target category and attribute, and whether visible partial objects count. Identify its distinguishing parts. A reflection or two exposed fragments of one object must not receive two IDs.
+2. **Divide the image into countable regions.** Prefer shelves or rows. Otherwise begin with four quadrants; subdivide a crowded quadrant when individual centers cannot be distinguished. Assign an object to the region containing its center. On a dividing line, assign it to the region on the right or below. Keep this rule through every crop.
+3. **Count by location, not appearance density.** Sweep each region left-to-right, top-to-bottom. Give each accepted instance a stable ID such as `A01`. Save `region A: accepted=A01..A12; uncertain=A13; subtotal=12; checked=yes` in the action's `note`. Record approximate original-image centers for ambiguous or boundary objects so they can be matched after zooming.
+4. **Resolve only uncertain objects.** Crop a touching group with its immediate neighbors. Match visible parts into instances; check target color/type before inclusion. Overlapping crops may show the same ID again. Never add the number of objects in a new crop directly to the running total. Optional canvas markers use these same IDs; updating `A13` corrects its marker instead of creating a new object.
+5. **Audit boundaries and add subtotals.** Check each shared region boundary once for split or repeated instances. Count accepted IDs within each region, then add the regional subtotals. Revise the affected subtotal when a candidate is accepted or rejected. Marker count alone is not the object count: rejected candidates may still have marks.
 
-## Define an instance
-Identify the object's distinguishing parts and the distractors. One package, one reflection and one component are not automatically three objects. If a target has several visible fragments, match them before assigning identities.
+Return the total and regional breakdown. If unresolved objects remain, give the confirmed count plus the number of uncertain candidates; only give an upper bound when each candidate can contribute at most one object. Do not estimate hidden inventory unless requested.
 
-## Partition without duplication
-1. Keep an unmarked overview as the coordinate reference. Divide it along shelves, rows or other stable boundaries; use a regular spatial partition only when natural boundaries are unavailable.
-2. Assign every object to the region containing its center. If the center is hidden, choose one consistent ownership rule from the visible extent and record the ambiguity.
-3. Scan each region in a fixed order. Maintain a ledger of region, counted instance IDs, subtotal and unresolved candidates. Do not infer a subtotal from density or repeated spacing.
-
-## Inspect and mark
-Request source crops for touching, occluded or tiny candidates. Overlap neighboring crops for boundary inspection, but count original-image identities, not crop appearances. Use small numbered notes beside already counted instances when helpful; avoid covering color or shape features used for inclusion. A note is bookkeeping, not a new target.
-
-## Reconcile
-Review only the uncertain candidates and partition boundaries on a second pass. Check objects split across cells and repeated appearances in overlapping crops. Sum the accepted regional subtotals independently. If a region changes, update its subtotal and total together rather than appending another count.
-
-## Deliver
-Return the total under the stated inclusion rule. If detail is requested, give regional subtotals and the unresolved candidate count. Separate an exact visible count from any estimate of occluded objects. If exactness is impossible, report the supported lower bound or a justified interval with the specific source of uncertainty.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

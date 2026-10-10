@@ -5,22 +5,12 @@ description: Diagnose visible application failures from screenshots by reading e
 
 # Screenshot Diagnosis
 
-## Use
-Accept a screenshot and the intended action. If the goal is absent, infer it only when the visible error makes the workflow clear. Screenshots provide state at one moment, not a history of actions or permission to operate the application.
+1. **Read the blocking state.** Identify the application/page, intended action and foreground dialog. Crop the entire error with its title, exact code and nearby input labels. Also inspect the control the user was trying to use. An obscured background control may not describe the active state.
+2. **Extract facts, then hypotheses.** Save `observed: exact message, selected field/state; unknown: ...` in the action's `note`. Classify the visible failure: rejected input, missing access, unavailable resource, connection failure or operation still running. A disabled button alone does not identify the cause.
+3. **Prefer a visible repair when one is explicit.** If the message names a missing field or invalid value, point to that field and the required constraint. If a path or resource is missing, identify the exact resource to check. If access is denied, verify the selected account and that resource's access. Do not turn every network-looking error into advice to change DNS or reinstall.
+4. **Choose one check that separates the remaining causes.** Write `check -> outcome A supports X; outcome B supports Y`. For example, if upload rejection could depend on file size, checking the displayed file size against the displayed limit can distinguish that cause from a format restriction. Use only constraints and controls visible in the screenshot or explicitly supplied by the user.
+5. **Define observable success.** State what should appear after the next step, such as the dialog closing and the requested item appearing. A button click is not proof of success. With several screenshots, match the same account, object and workflow stage before interpreting the transition.
 
-## Establish what is visible
-Read the application/page, active tab, selected object, dialog title, error code and complete message. Crop small text with its associated label and control. Distinguish an error, an empty result, a disabled action and a pending operation. Inspect the relevant foreground dialog before interpreting obscured background controls.
+Return the visible problem, likely cause with its supporting clue, and one precise next action or request for missing evidence. If the screenshot cannot distinguish causes, say what exact error detail is needed. Do not invent menu paths, claim to have operated the app, or repeat visible credentials.
 
-## Build a causal shortlist
-Separate observations from hypotheses. For each plausible cause, identify what visible evidence supports it and what is missing. A permission message may support an access issue; it does not prove that the server is down. A network-looking failure does not establish a specific proxy, DNS or certificate problem without further evidence.
-
-## Choose the next check
-Prefer the smallest check that separates the leading explanations. Name the exact visible control or requested log detail and describe what each outcome would imply. If the screenshot already exposes an invalid field, point to that field instead of giving a generic reinstall/reset sequence. Do not invent menu names, settings, versions or controls not shown.
-
-For a sequence of screenshots, align the same workflow state and compare transitions. Treat a button's presence as availability, not proof that it was clicked or that the action succeeded. After any user-authorized follow-up action, use the new state to revise the diagnosis.
-
-## Deliver
-Give a concise diagnosis with three parts: what the screenshot establishes, the most likely explanation with uncertainty, and one actionable next check. Add alternatives only if they change the next step. Avoid repeating visible secrets or unnecessary personal information. If evidence is insufficient, ask for the specific missing detail rather than requesting an indiscriminate log dump.
-
-## Execution
-In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.
+In ViewCraft, save the working record in the next action’s `note` and finish with `{"action":"answer","answer":"..."}`. Follow the runtime’s image-number and coordinate manifest. In another visual agent, use its inspection tools and return the same result directly.

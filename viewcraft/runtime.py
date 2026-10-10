@@ -369,7 +369,8 @@ def _notes_from(obj) -> list[dict]:
             continue
         out.append({"x": pt[0], "y": pt[1],
                     "text": str(n.get("text", n.get("label", "")) or "")[:24],
-                    "target": _target_index(n, obj)})
+                    "target": _target_index(n, obj),
+                    "id": str(n.get("id", "") or "")[:24]})
     return out
 
 
@@ -480,7 +481,8 @@ def parse_model_turn(text: str, n_options: int) -> ViewRequest:
 
 
 def describe_visible(views: list["RenderedView"],
-                     contract: str = "") -> str:
+                     contract: str = "", sources: tuple = (),
+                     labels: tuple = ()) -> str:
     """Label each attached image with what it shows and where it came from.
 
     Without this the model receives an unlabelled image stack on later turns
@@ -495,7 +497,18 @@ def describe_visible(views: list["RenderedView"],
     lines = ["\nImages attached, in order:"]
     for i, v in enumerate(views, 1):
         r = v.record
-        stamp = (f" at t={r.seconds:.1f}s" if r.seconds is not None else "")
+        stamp = (f" at t={r.seconds:.3f}s" if r.seconds is not None else "")
+        if r.source_media_id in sources:
+            unit = sources.index(r.source_media_id)
+            label = labels[unit] if unit < len(labels) else Path(r.source_media_id).name
+            stamp += f" [source unit {unit}; {label}]"
+        if r.source_units:
+            members = [f"tile {j+1}: source unit {u}; " +
+                       (labels[u] if u < len(labels) else
+                        Path(sources[u]).name if u < len(sources) else "unlabeled")
+                       for j, u in enumerate(r.source_units)]
+            lines.append(f"  Image {i}: COMPOSITE, row-major order; " + "; ".join(members))
+            continue
         if r.kind in ("full", "overview"):
             tag = (" with YOUR accumulated notes marked on it"
                    if "phi.canvas" in (r.created_by or "") else "")
@@ -516,7 +529,7 @@ def describe_visible(views: list["RenderedView"],
     # landed somewhere the model never intended, and ScreenSpot-Pro
     # candidates collapsed to ~0.1 against a 0.49 baseline.
     composite = any(v.record.created_by in ("psi.layout_expr",
-                                            "psi.context_ops")
+                                            "psi.context_ops", "action.compose")
                     for v in views)
     if composite:
         lines.append(
@@ -636,7 +649,16 @@ def build_task_prompt(item: PublicItem, coords: Coordinates,
             lines.append(f"  {chr(ord('A') + i)}. {o}")
     if visible:
         lines.append(describe_visible(
-            visible, str(getattr(coords.psi, "view_contract", "") or "")))
+            visible, str(getattr(coords.psi, "view_contract", "") or ""),
+            tuple(_meta.get("source_pool", item.media_ids)),
+            tuple(_meta.get("source_labels", ()))))
+    lines.append('Use the top-level "note" string on any action to save concise '
+                 'observations, checked regions and unresolved items for later steps. '
+                 'These notes are your own working record, not verified evidence. '
+                 'Record corrections explicitly; the latest correction supersedes the old entry.')
+    if _meta.get("working_notes"):
+        lines.append("Previous working notes (chronological):\n" +
+                     "\n".join(_meta["working_notes"]))
     ans_header, ans_example = ANSWER_STYLES[answer_style]
     # psi.answer_contract lets the optimizer rewrite the ANSWER protocol the
     # same way psi.view_contract rewrites the image descriptions: the text
@@ -761,9 +783,12 @@ want to remember). Notes accumulate across steps and stay visible on later
 views of the same source -- including inside your zooms. Give points in the
 frame of the image you name:
 ```json
-{{"action": "note", "notes": [{{"at": [0.52, 0.31], "text": "3", "image": 2}}],
+{{"action": "note", "notes": [{{"at": [0.52, 0.31], "id": "3", "text": "counted", "image": 2}}],
   "note": "what you are marking"}}
 ```
+
+Use up to 32 markers per action. Reuse a marker ID on the same source to
+correct its position or text; different IDs remain distinct even when close.
 
 To see source units NOT currently attached (the pool has {pool_size} units,
 0-based indices; the first images you were shown are a subset of it):
@@ -960,6 +985,8 @@ def run_static_item(item: PublicItem, coords: Coordinates,
     # any unit of it mid-episode. The step-0 trim decides what is shown
     # FIRST, not what is reachable.
     full_pool = list(media_list)
+    item = replace(item, meta={**(item.meta or {}), "source_pool": full_pool,
+                               "working_notes": []})
     full_times = list((item.meta or {}).get("frame_times_s") or [])
     if sel_expr and len(media_list) > 1:
         from .views.selection import eval_selection_expr
@@ -1042,16 +1069,11 @@ def run_static_item(item: PublicItem, coords: Coordinates,
         history.append(ov)
         traj.views.append(ov.record)
 
-    # VISUAL MEMORY LAYER state. `base_overviews` keeps the RAW whole-media
-    # views so a note can be re-rendered from clean pixels (never double-baked);
-    # `canvas_notes` accumulates the model's notes per source media across the
-    # whole trajectory -- that accumulation IS the external working memory.
-    base_overviews = list(overviews)
+    # Clean pixels let later marker corrections replace, rather than bake over,
+    # earlier marks on both full views and crops.
+    raw_views = {v.record.view_id: v for v in overviews}
     canvas_notes: dict[str, list] = {}
-    # Unit-sets already tiled by an action.compose call this trajectory
-    # (idempotency for the compose action: re-composing the same set is the
-    # same sheet, so it is absorbed with a notice instead of re-rendered).
-    composed_sheets: set = set()
+    composed_sheets: dict = {}
 
     reminded = False
     # THE GATE'S REFUSAL STATE. `refusal_notice` is prepended to the next
@@ -1107,6 +1129,8 @@ def run_static_item(item: PublicItem, coords: Coordinates,
                           f"produced no text (cap {max_tok})")
 
         req = parse_model_turn(resp.content, len(item.options))
+        if req.note.strip() and req.action in ("zoom", "note", "view", "compose"):
+            item.meta["working_notes"].append(f"Step {step + 1}: {req.note.strip()}")
 
         if req.action == "answer":
             resolved, res_note = _resolve_answer_point(req.answer,
@@ -1151,15 +1175,8 @@ def run_static_item(item: PublicItem, coords: Coordinates,
             traj.n_actions += 1
             reminded = False
             if req.action == "view":
-                # IDEMPOTENT MATERIALISATION (same lesson as canvas notes):
-                # a unit already attached is already visible -- re-rendering
-                # it stacks duplicates and the model loops "did I get them?"
-                # until the budget is gone (measured on the first smoke:
-                # 16 identical view calls, 128 views, then truncated).
-                # Skip what is already attached and SAY SO, so the next
-                # prompt shows the stable state instead of inviting a retry.
-                attached = {v.record.source_media_id
-                            for v in history
+                # A cached page can have left the attachment window.
+                attached = {v.record.source_media_id for v in visible
                             if v.record.kind in ("full", "overview")}
                 fresh = [u for u in units if full_pool[u] not in attached]
                 if not fresh:
@@ -1176,6 +1193,12 @@ def run_static_item(item: PublicItem, coords: Coordinates,
                         seconds=(full_times[u]
                                  if u < len(full_times) else None))
                     ov = _with_view_ops(ov, coords, item, len(full_pool), u)
+                    raw = ov
+                    ov = _with_notes_on_view(ov, canvas_notes, coords, item, len(full_pool), u)
+                    raw_views[ov.record.view_id] = raw
+                    history = [v for v in history if not (
+                        v.record.source_media_id == m and v.record.kind in ("full", "overview"))]
+                    overviews = [v for v in overviews if v.record.source_media_id != m] + [ov]
                     history.append(ov)
                     traj.views.append(ov.record)
                 if len(fresh) < len(units):
@@ -1188,13 +1211,11 @@ def run_static_item(item: PublicItem, coords: Coordinates,
             # sheet has no single source transform, so (like psi.layout_expr
             # composites) it is display-only: the model must name a
             # single-source view for any zoom/note, and the prompt says so.
-            key = tuple(sorted(units))
+            key = (tuple(units), req.cols)
             if key in composed_sheets:
-                refusal_notice = (
-                    f"The sheet for units {sorted(units)} is already "
-                    f"attached above -- read it; do not compose the same "
-                    f"units again. Zoom/note on single-source views, or "
-                    f"answer.")
+                sheet = composed_sheets[key]
+                history = [v for v in history if v.record.view_id != sheet.record.view_id]
+                history.append(sheet)
                 continue
             import io as _io
             from PIL import Image as _Image
@@ -1244,10 +1265,10 @@ def run_static_item(item: PublicItem, coords: Coordinates,
                 # candidates into rejection.
                 region=_Region(0.0, 0.0, 1.0, 1.0),
                 src_w=im.size[0], src_h=im.size[1],
-                created_by="action.compose"), _enc(im))
+                created_by="action.compose", source_units=tuple(units)), _enc(im))
             history.append(sheet)
             traj.views.append(sheet.record)
-            composed_sheets.add(key)
+            composed_sheets[key] = sheet
             continue
 
         if req.action == "note":
@@ -1259,7 +1280,8 @@ def run_static_item(item: PublicItem, coords: Coordinates,
             # (a zoom included) and mapped to source coords here, so a note
             # dropped inside a close-up lands at the exact source pixel.
             applied = 0
-            for note in req.canvas_notes[: coords.phi.max_crops_per_step]:
+            changed_sources = set()
+            for note in req.canvas_notes[:32]:
                 tgt = note.get("target", 0)
                 ref = visible[tgt] if 0 <= tgt < len(visible) else None
                 if ref is None or "," in (ref.record.source_media_id or ""):
@@ -1268,35 +1290,28 @@ def run_static_item(item: PublicItem, coords: Coordinates,
                 sx, sy = _map_point_to_source((note["x"], note["y"]),
                                               ref.record)
                 existing = canvas_notes.setdefault(sid, [])
-                # IDEMPOTENT MARKING. Re-tapping the same spot must not stack a
-                # second mark: the model re-sweeps the image and re-notes dots
-                # it already marked, and without dedup the canvas accumulates
-                # 28 -> 56 -> 84 notes and the auto-ordinals run away, so the
-                # model concludes it has not finished and loops until the
-                # budget is gone (measured: 13 identical NOTE x28 actions, then
-                # truncated). A new note within ~3% of the long edge of an
-                # existing one IS the same mark and is absorbed, so the count
-                # is stable and the model can see it is done. Compared in
-                # source coords, so a re-tap from a different zoom level of
-                # the same spot still dedups.
-                dup = any((abs(sx - e["x"]) < 0.03
-                           and abs(sy - e["y"]) < 0.03) for e in existing)
-                if not dup:
-                    kept = {"x": sx, "y": sy,
-                            "text": note.get("text", "")}
+                marker_id = note.get("id", "")
+                match = next((e for e in existing if
+                    (marker_id and e.get("id") == marker_id) or
+                    (not marker_id and not e.get("id") and
+                     abs(sx - e["x"]) < 1e-6 and abs(sy - e["y"]) < 1e-6 and
+                     e.get("text") == note.get("text", ""))), None)
+                kept = {"x": sx, "y": sy, "text": note.get("text", ""), "id": marker_id}
+                if match == kept:
+                    continue
+                if match is None:
                     existing.append(kept)
-                    # Persist for C_ground replay and case studies.
-                    traj.canvas_notes.append({"source_media_id": sid, **kept})
-                    applied += 1
+                else:
+                    match.update(kept)
+                changed_sources.add(sid)
+                applied += 1
+            traj.canvas_notes = [{"source_media_id": sid, **n}
+                                 for sid, ns in canvas_notes.items() for n in ns]
             traj.n_actions += applied
             # All notes were duplicates of marks already on the canvas: the
             # model is re-sweeping finished work. That is not a malformed
-            # request -- re-render (the canvas is unchanged) and let it see the
-            # stable count, but do NOT spend the malformed-reminder on it.
+            # request; leave the canvas unchanged without spending a reminder.
             if not applied and req.canvas_notes:
-                history = overviews + [v for v in history
-                                       if v.record.kind not in
-                                       ("overview", "full")]
                 continue
             if not applied:
                 # Declared a note but every point was unusable: same protocol
@@ -1311,22 +1326,18 @@ def run_static_item(item: PublicItem, coords: Coordinates,
                 reminded = True
                 continue
             reminded = False
-            # Re-derive each source's overview from its RAW base with the
-            # current notes, so re-noting replaces the marks instead of
-            # stacking them. Notes live on the OVERVIEW (the annotated map);
-            # a later zoom still reads raw detail from the source file.
-            new_overviews = []
-            for i, bov in enumerate(base_overviews):
-                ns = canvas_notes.get(bov.record.source_media_id)
-                if ns:
-                    ann = _with_canvas(bov, ns, coords, item, len(media_list), i)
-                    new_overviews.append(ann)
-                    traj.views.append(ann.record)
-                else:
-                    new_overviews.append(bov)
-            overviews = new_overviews
-            history = overviews + [v for v in history
-                                   if v.record.kind not in ("overview", "full")]
+            for i, old in enumerate(history):
+                sid = old.record.source_media_id
+                if sid not in changed_sources:
+                    continue
+                raw = raw_views.get(old.record.view_id, old)
+                ann = _with_notes_on_view(raw, canvas_notes, coords, item,
+                                          len(full_pool), full_pool.index(sid))
+                raw_views[ann.record.view_id] = raw
+                history[i] = ann
+                traj.views.append(ann.record)
+            overviews = [v for v in history if v.record.kind in ("overview", "full")
+                         and v.record.source_media_id in full_pool]
             continue
 
         if req.action == "malformed_zoom":
@@ -1443,8 +1454,10 @@ def run_static_item(item: PublicItem, coords: Coordinates,
             # shows the marks that fall inside it, exactly placed by the
             # recorded transform. A note the model dropped to remember "this
             # button" is still there when it zooms in to click it.
+            raw = view
             view = _with_notes_on_view(view, canvas_notes, coords, item,
                                        len(media_list), mi)
+            raw_views[view.record.view_id] = raw
             history.append(view)
             traj.views.append(view.record)
             made_any = True
@@ -1704,7 +1717,7 @@ def _with_notes_on_view(view: RenderedView, canvas_notes: dict,
         uv = _map_point_to_view((n["x"], n["y"]), view.record)
         if uv is not None:
             local.append({"x": uv[0], "y": uv[1],
-                          "text": n.get("text", "")})
+                          "text": n.get("text", ""), "id": n.get("id", "")})
     if not local:
         return view
     return _with_canvas(view, local, coords, item, n_media, media_index)
@@ -1810,34 +1823,33 @@ def select_visible(history: list[RenderedView], coords: Coordinates,
     crops = [v for v in history
              if v.record.kind not in ("overview", "full") or _is_sheet(v)]
 
+    if max_imgs <= 0:
+        return []
     keep_n = max(0, int(coords.psi.history_keep_last_n))
-    if coords.psi.evict_policy == "keep_overview_drop_crops":
-        kept_crops = crops[-keep_n:] if keep_n else []
-    else:  # fifo over crops
-        kept_crops = crops[-keep_n:] if keep_n else []
-
+    kept_crops = crops[-min(keep_n, max_imgs):] if keep_n else []
     head = heads if coords.psi.keep_overview else []
-
-    if coords.psi.order == "crops_first":
-        out = kept_crops + head
+    if head and kept_crops:
+        last_derived = next(i for i, v in reversed(list(enumerate(history)))
+                            if v is kept_crops[-1])
+        recent_ids = {v.record.view_id for v in history[last_derived + 1:]}
+        recent = [v for v in head if v.record.view_id in recent_ids][-max_imgs:]
+        # Explicit page requests made after the last crop take priority.
+        # Otherwise reserve the source overview for the latest crop.
+        source = kept_crops[-1].record.source_media_id
+        anchor = next((v for v in reversed(head) if v.record.source_media_id == source), head[-1])
+        reserved = list(recent)
+        if max_imgs - len(reserved) > 1 and all(v is not anchor for v in reserved):
+            reserved.insert(0, anchor)
+        room = max_imgs - len(reserved)
+        kept_crops = kept_crops[-room:] if room else []
+        spare = max_imgs - len(reserved) - len(kept_crops)
+        reserved_ids = {v.record.view_id for v in reserved}
+        others = [v for v in head if v.record.view_id not in reserved_ids]
+        head = (others[-spare:] if spare else []) + reserved
     else:
-        out = head + kept_crops
-
-    if len(out) > max_imgs:
-        if head and coords.psi.keep_overview:
-            # Crops are what the model just asked for, so they are never
-            # dropped in favour of whole-media views; when the cap cannot fit
-            # both, the head set is thinned to the most recent frames and at
-            # least one crop is guaranteed a slot.
-            room = max(0, max_imgs - len(kept_crops))
-            keep_head = head[-room:] if room else []
-            out = (keep_head + kept_crops
-                   if coords.psi.order != "crops_first"
-                   else kept_crops + keep_head)
-            out = out[-max_imgs:] if len(out) > max_imgs else out
-        else:
-            out = out[-max_imgs:]
-    return out
+        room = max_imgs - len(kept_crops)
+        head = head[-room:] if room > 0 else []
+    return kept_crops + head if coords.psi.order == "crops_first" else head + kept_crops
 
 
 def check_exec_contract(traj: Trajectory, coords: Coordinates,

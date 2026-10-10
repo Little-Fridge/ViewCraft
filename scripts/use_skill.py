@@ -98,7 +98,7 @@ def main():
         question = args.question + '\n\nSource map (zero-based units for view requests):\n' + sources
         question += '\nOnly inspected sources support the answer; the initial view may show a subset of this pool.'
         item = PublicItem('skill/' + meta['id'], 'custom', question, tuple(images), tuple(args.options or []),
-                          meta={'frame_times_s': times} if times else {})
+                          meta={'frame_times_s': times, 'source_labels': labels})
         trajectory = run_static_item(item, coords, client, budget, sha({'budget':budget,'skill':coords.config_hash}),
                                      arm='viewcraft', condition='normal', split='inference',
                                      answer_style=meta.get('answer_style', 'free_text'))
