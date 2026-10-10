@@ -67,6 +67,8 @@ The observation budget controls how many inspection steps are available. Long ta
 
 ## Multi-step inspection
 
+The bundled runner exposes `view`, `zoom`, `compose`, `note` and `answer` to the model. It also evaluates the image-processing and layout expressions in the skill configuration. It does not expose a shell, a general-purpose Python interpreter or an external graph solver. The workflows here must use those supplied actions; tools available in another host agent are not automatically available in ViewCraft.
+
 The runtime labels every attachment with its source unit and file/page or timestamp. `view` and `compose` use zero-based **source units**; `zoom` and canvas markers use the current one-based **Image numbers**. Image numbers can change between steps, so keep working records keyed by source unit or filename/page.
 
 Each action's top-level `note` carries concise observations to subsequent calls, including the final call. Store new facts and explicit corrections, rather than repeating the entire history. For example, a counting step can save:
