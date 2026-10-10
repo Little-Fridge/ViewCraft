@@ -1,7 +1,0 @@
-{
-  "question": "Locate the Retry button in the Meridian sync row whose environment is Production. Return its center as normalized (x, y) coordinates in the original screenshot.",
-  "images": [
-    "input.png"
-  ],
-  "options": []
-}

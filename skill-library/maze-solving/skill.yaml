@@ -1,0 +1,8 @@
+id: maze-solving
+title: 迷宫寻路
+description: 沿可通行区域寻找路线，逐段核对墙体。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 8
+  max_images_per_request: 8

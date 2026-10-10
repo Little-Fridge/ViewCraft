@@ -1,0 +1,8 @@
+id: pdf-reading
+title: PDF 阅读
+description: 定位证据，跨页阅读，带页码回答。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 8

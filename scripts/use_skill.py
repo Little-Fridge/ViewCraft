@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a gallery skill on its bundled case or your own images/frame pool."""
+"""Run a reusable skill on your own images or timestamped frame pool."""
 from __future__ import annotations
 
 import argparse
@@ -36,7 +36,7 @@ def compare_answer(prediction, expected):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--skill", required=True, help="Gallery ID or skill directory")
+    ap.add_argument("--skill", required=True, help="Skill library ID or skill directory")
     ap.add_argument("--config", type=Path, default=ROOT / "configs/models.yaml")
     ap.add_argument("--images", nargs="+", type=Path)
     ap.add_argument("--question")
@@ -58,7 +58,7 @@ def main():
     from viewcraft.schema import PublicItem, sha
     from viewcraft.views.config import Coordinates
 
-    directory = ROOT / "gallery" / args.skill
+    directory = ROOT / "skill-library" / args.skill
     if not directory.is_dir():
         directory = Path(args.skill).resolve()
     meta = yaml.safe_load((directory / "skill.yaml").read_text())
@@ -68,6 +68,8 @@ def main():
     if bool(args.images) != bool(args.question):
         ap.error("For your own case supply both --images and --question")
     if bundled:
+        if not (directory / "case/request.json").exists():
+            ap.error("This skill needs your own input. Supply --images and --question; see skill-library/README.md.")
         request = json.loads((directory / "case/request.json").read_text())
         image_paths = [str((directory / "case" / p).resolve()) for p in request["images"]]
     else:

@@ -86,10 +86,10 @@ and model alias. Credential values are not used as cache keys.
 Use `--check` to validate local inputs without making API calls. It does not test
 endpoint connectivity or guarantee that a backend accepts your request format.
 
-## GPT-6 gallery profile
+## GPT-6 endpoint profile
 
 Use `--config configs/models-gpt6.yaml` with your compatible endpoint and key.
 The tested GPT-6 deployment rejects temperature=0; this profile omits temperature
 and uses max_completion_tokens. A gateway may require a routed model identifier;
-set VIEWCRAFT_EXECUTOR_MODEL to its exact served name. The recorded gallery used
-GPT-6 Astra. Local AIHub credentials/routes used to record it are not distributed.
+set VIEWCRAFT_EXECUTOR_MODEL to its exact served name. Credentials and private
+provider routes are not distributed.

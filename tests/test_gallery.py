@@ -1,4 +1,4 @@
-"""Gallery schema and replay fidelity checks; no model service required."""
+"""Skill library schema and replay fidelity checks; no model service required."""
 import base64
 import io
 import json
@@ -11,29 +11,24 @@ import yaml
 from html.parser import HTMLParser
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = sorted(p.name for p in (ROOT / "gallery").iterdir() if (p / "skill.yaml").exists())
+SKILLS = sorted(p.name for p in (ROOT / "skill-library").iterdir() if (p / "skill.yaml").exists())
 
 
 @pytest.mark.parametrize("name", SKILLS)
-def test_gallery_skill_and_case(name):
+def test_library_skill(name):
     from viewcraft.views.config import Coordinates
     from viewcraft.evolution.chain import Chain
     from viewcraft.evolution.propose import Candidate
-    path = ROOT / "gallery" / name
+    path = ROOT / "skill-library" / name
     meta = yaml.safe_load((path / "skill.yaml").read_text())
     assert meta["id"] == name
     assert meta["answer_style"] in ("short_text", "point", "letter", "yes_no")
     coords = Coordinates.read_snapshot(path)
     Chain._assert_expressions_parse(None, Candidate("joint", coords, "gallery", "gallery"))
-    request = json.loads((path / "case/request.json").read_text())
-    assert "answer" not in request and "expected" not in request
-    assert request["question"] and request["images"]
-    for filename in request["images"]:
-        with Image.open(path / "case" / filename) as image:
-            image.verify()
-    expected = json.loads((path / "case/expected.json").read_text())
-    assert expected["answer"]
-    assert (path / "case/generate.py").exists()
+    assert meta["budget"]["observations"] > 0
+    assert meta["budget"]["max_images_per_request"] == coords.psi.max_images_per_request
+    assert coords.theta.text.strip()
+    assert not (path / "case").exists()
 
 
 def test_recorder_preserves_real_attachments_and_text(tmp_path):
@@ -82,25 +77,24 @@ class ResourceAudit(HTMLParser):
                 self.external.append((tag, key, value))
 
 
-@pytest.mark.parametrize("page", sorted((ROOT / "gallery").rglob("*.html")))
-def test_exported_html_has_no_external_resources(page):
-    parser = ResourceAudit()
-    parser.feed(page.read_text())
-    assert not parser.external, (page, parser.external)
-    assert any(tag == "img" for tag, _, _ in parser.resources)
-    assert 'fetch(' not in page.read_text()
+def test_skill_cli_accepts_library_id(tmp_path):
+    import subprocess
+    import sys
+    image = tmp_path / "sample.png"
+    Image.new("RGB", (32, 32), "white").save(image)
+    result = subprocess.run([sys.executable, str(ROOT / "scripts/use_skill.py"),
+                             "--skill", "dense-counting", "--images", str(image),
+                             "--question", "Count the visible targets.", "--check"],
+                            cwd=ROOT, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert "CHECK OK: dense-counting" in result.stdout
 
 
-def test_standalone_gallery_embeds_all_cases():
-    parser = ResourceAudit()
-    page = (ROOT / "gallery/index.html").read_text()
-    parser.feed(page)
-    for name in SKILLS:
-        assert f'id="case-{name}"' in page
-    assert '<video' not in page
-    assert '<details' not in page
-    assert '<button' not in page
-    assert 'download=' not in page
-    assert 'data:application/zip' not in page
-    assert '@font-face' in page and 'data:font/ttf;base64,' in page
-    assert page.count('class="coordinate"') == 30
+def test_skill_cli_requires_inputs():
+    import subprocess
+    import sys
+    result = subprocess.run([sys.executable, str(ROOT / "scripts/use_skill.py"),
+                             "--skill", "dense-counting", "--check"],
+                            cwd=ROOT, capture_output=True, text=True)
+    assert result.returncode != 0
+    assert "Supply --images and --question" in result.stderr

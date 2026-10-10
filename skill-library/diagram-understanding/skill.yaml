@@ -1,0 +1,8 @@
+id: diagram-understanding
+title: 流程图理解
+description: 追踪箭头与分支，把图里的关系解释清楚。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 8

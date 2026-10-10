@@ -1,9 +1,0 @@
-overview_long_edge_px: 1200
-crop_long_edge_px: 1600
-select_expr: "uniform(budget)"
-pixel_expr: "rgb(red, green, blue)"
-canvas_expr: ""
-crop_margin: 0.04
-max_crops_per_step: 2
-allow_upscale: false
-zoom_gate_expr: "zoom_gain > 1.05"

@@ -1,8 +1,0 @@
-id: motion-state
-title: Which objects stayed still?
-description: Compare labeled colored objects across five temporal frames, including an object that moves and returns to its starting position.
-input_type: frames
-answer_style: short_text
-budget:
-  observations: 6
-  max_images_per_request: 6

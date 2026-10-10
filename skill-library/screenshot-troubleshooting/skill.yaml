@@ -1,0 +1,8 @@
+id: screenshot-troubleshooting
+title: 截图排障
+description: 看清报错和界面状态，给出有依据的下一步。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 4
+  max_images_per_request: 8

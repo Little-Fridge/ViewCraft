@@ -1,8 +1,0 @@
-id: multi-page-qa
-title: Multi-page QA
-description: Locate the relevant pages in a short report and combine two visible facts into a concise answer.
-input_type: images
-answer_style: short_text
-budget:
-  observations: 6
-  max_images_per_request: 6

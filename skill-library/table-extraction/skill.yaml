@@ -1,0 +1,8 @@
+id: table-extraction
+title: 表格提取
+description: 保留行列关系，把截图整理成结构化数据。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 8

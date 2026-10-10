@@ -1,0 +1,8 @@
+id: document-comparison
+title: 文档版本核对
+description: 跨版式对齐条款、数值和表格，列出实质变化。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 7
+  max_images_per_request: 8

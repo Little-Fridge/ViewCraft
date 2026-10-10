@@ -33,4 +33,4 @@ Verified dependency versions:
 
 These checks cover the software path and bundled inputs, not real-model accuracy.
 Other supported Python/dependency combinations have not been individually tested.
-The gallery's supplied live recordings are separate from this offline verification.
+This release does not distribute internal model-response recordings.

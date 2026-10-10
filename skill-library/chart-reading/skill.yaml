@@ -1,0 +1,8 @@
+id: chart-reading
+title: 图表解读
+description: 读懂坐标、图例与单位，再比较和计算。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 5
+  max_images_per_request: 8

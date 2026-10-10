@@ -1,8 +1,0 @@
-id: object-counting
-title: Color + shape counting
-description: Count a requested color and shape using a compartment-by-compartment visual tally while excluding partial matches.
-input_type: image
-answer_style: short_text
-budget:
-  observations: 6
-  max_images_per_request: 6

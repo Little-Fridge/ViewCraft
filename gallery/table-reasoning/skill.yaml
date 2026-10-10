@@ -1,8 +1,0 @@
-id: table-reasoning
-title: Table Reasoning
-description: Filter table rows by several conditions and total the requested numeric column while ignoring distractor records and measures.
-input_type: image
-answer_style: short_text
-budget:
-  observations: 6
-  max_images_per_request: 6

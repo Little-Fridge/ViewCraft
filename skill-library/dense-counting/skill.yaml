@@ -1,0 +1,8 @@
+id: dense-counting
+title: 密集计数
+description: 把目标分区核对，避免漏数与重复计数。
+input_type: image
+answer_style: short_text
+budget:
+  observations: 6
+  max_images_per_request: 8

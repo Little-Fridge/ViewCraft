@@ -1,8 +1,0 @@
-id: form-reading
-title: Read a form field
-description: Pair a business form label with its exact value despite neighboring reference fields.
-input_type: image
-answer_style: short_text
-budget:
-  observations: 6
-  max_images_per_request: 6
