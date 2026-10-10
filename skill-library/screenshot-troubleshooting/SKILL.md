@@ -1,16 +1,26 @@
 ---
 name: screenshot-troubleshooting
-description: Interpret visible application errors or unexpected interface states and
-  suggest the next diagnostic step. Use when a user supplies a screenshot of a failed
-  workflow.
+description: Diagnose visible application failures from screenshots by reading exact errors, separating observed state from hypotheses and choosing a discriminating next check.
 ---
 
-# 截图排障
+# Screenshot Diagnosis
 
-Identify the application, active page, selected object and visible error state. Read the full error message, code and nearby field labels from the same screen; request a contextual crop when text is small. A disabled control, loading indicator and error banner imply different states.
+## Use
+Accept a screenshot and the intended action. If the goal is absent, infer it only when the visible error makes the workflow clear. Screenshots provide state at one moment, not a history of actions or permission to operate the application.
 
-Separate directly observed facts from possible causes. Prefer a small diagnostic action that distinguishes plausible causes over a long generic troubleshooting list. Refer to controls by their visible labels and locations. Do not invent hidden settings, application versions, logs or successful actions from a screenshot.
+## Establish what is visible
+Read the application/page, active tab, selected object, dialog title, error code and complete message. Crop small text with its associated label and control. Distinguish an error, an empty result, a disabled action and a pending operation. Inspect the relevant foreground dialog before interpreting obscured background controls.
 
-Return what the screenshot establishes, the most relevant next check and what its possible outcomes would imply. When the screenshot does not contain the needed evidence, specify the missing error detail or log. This skill interprets screenshots; it does not operate the application or assume permission to change settings.
+## Build a causal shortlist
+Separate observations from hypotheses. For each plausible cause, identify what visible evidence supports it and what is missing. A permission message may support an access issue; it does not prove that the server is down. A network-looking failure does not establish a specific proxy, DNS or certificate problem without further evidence.
 
-Finish with the runtime action=answer object. Its answer field is a string containing the requested output.
+## Choose the next check
+Prefer the smallest check that separates the leading explanations. Name the exact visible control or requested log detail and describe what each outcome would imply. If the screenshot already exposes an invalid field, point to that field instead of giving a generic reinstall/reset sequence. Do not invent menu names, settings, versions or controls not shown.
+
+For a sequence of screenshots, align the same workflow state and compare transitions. Treat a button's presence as availability, not proof that it was clicked or that the action succeeded. After any user-authorized follow-up action, use the new state to revise the diagnosis.
+
+## Deliver
+Give a concise diagnosis with three parts: what the screenshot establishes, the most likely explanation with uncertainty, and one actionable next check. Add alternatives only if they change the next step. Avoid repeating visible secrets or unnecessary personal information. If evidence is insufficient, ask for the specific missing detail rather than requesting an indiscriminate log dump.
+
+## Execution
+In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.

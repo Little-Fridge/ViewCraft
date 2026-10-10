@@ -1,8 +1,9 @@
 id: dense-counting
-title: 密集计数
-description: 把目标分区核对，避免漏数与重复计数。
+title: Dense Object Counting
+description: Count crowded objects under category and attribute constraints using region ownership, instance
+  tracking and a separate ambiguity review.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 6
+  observations: 10
   max_images_per_request: 8

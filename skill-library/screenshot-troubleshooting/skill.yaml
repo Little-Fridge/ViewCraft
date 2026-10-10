@@ -1,8 +1,9 @@
 id: screenshot-troubleshooting
-title: 截图排障
-description: 看清报错和界面状态，给出有依据的下一步。
+title: Screenshot Diagnosis
+description: Diagnose visible application failures from screenshots by reading exact errors, separating
+  observed state from hypotheses and choosing a discriminating next check.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 4
+  observations: 5
   max_images_per_request: 8

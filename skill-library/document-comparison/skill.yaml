@@ -1,8 +1,9 @@
 id: document-comparison
-title: 文档版本核对
-description: 跨版式对齐条款、数值和表格，列出实质变化。
+title: Document Revision Review
+description: Compare document versions by matching sections and records, then report substantive text,
+  numeric and table changes with paired source references.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 7
+  observations: 10
   max_images_per_request: 8

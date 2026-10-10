@@ -60,8 +60,8 @@ def load_task(path: Path) -> tuple[dict, list[Sample], Coordinates, DomainSpec, 
     from .evolution.propose import Candidate
     Chain._assert_expressions_parse(None, Candidate("joint", initial, "initial skill", "initial"))
     answer_style = task.get("answer_style", "short_text")
-    if answer_style not in ("short_text", "letter", "yes_no", "point"):
-        raise ValueError("answer_style must be short_text, letter, yes_no, or point")
+    if answer_style not in ("short_text", "free_text", "letter", "yes_no", "point"):
+        raise ValueError("answer_style must be short_text, free_text, letter, yes_no, or point")
     budget = task.setdefault("budget", {"observations": 6, "max_images_per_request": 4})
     for key in ("observations", "max_images_per_request"):
         if type(budget.get(key)) is not int or budget[key] < 1:

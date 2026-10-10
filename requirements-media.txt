@@ -1,0 +1,4 @@
+# Direct PDF and video input for scripts/use_skill.py.
+-r requirements.txt
+pypdfium2>=4.30
+av>=14.0

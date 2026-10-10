@@ -1,13 +1,13 @@
 allow_upscale: false
 canvas_expr: ''
-crop_long_edge_px: 2048
+crop_long_edge_px: 2560
 crop_margin: 0.025
 grid: null
-max_crops_per_step: 2
-min_crop_frac: 0.04
-overview_long_edge_px: 1536
+max_crops_per_step: 4
+min_crop_frac: 0.015
+overview_long_edge_px: 1280
 pixel_expr: rgb(red, green, blue)
 select_expr: uniform(budget)
 union_crop_for_multi_target: false
 view_ops: []
-zoom_gate_expr: zoom_gain > 1.05 or region_frac < 0.4
+zoom_gate_expr: ''

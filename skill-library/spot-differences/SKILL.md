@@ -1,15 +1,27 @@
 ---
 name: spot-differences
-description: Compare two corresponding images and locate meaningful visual differences.
-  Use for before/after photos, design revisions and visual checking.
+description: Compare paired images to localize additions, removals, movements and text changes while separating camera, lighting and rendering differences.
 ---
 
-# 找不同
+# Visual Difference Inspection
 
-Establish image A/B or before/after from supplied labels. Match stable landmarks before comparing positions; camera movement or global resizing can shift every object. Compare corresponding regions and keep each crop linked to its source image. For an object missing at its old location, search the full other view before calling it removed.
+## Use
+Accept two labeled images and the comparison scope. Preserve the supplied A/B or before/after order; two unlabeled pictures do not establish chronology.
 
-Check presence, position, shape, color and visible text according to the requested scope. Treat illumination and compression changes separately from object edits. Describe each difference once, even if it affects several neighboring pixels or appears in overlapping crops. Do not infer a chronological direction when none is supplied.
+## Align the views
+Find at least two stable landmarks where possible. Check global translation, scale, rotation and perspective before treating displacement as an object change. For screenshots, align the same panel and scroll position. For photographs, exclude regions newly revealed by a viewpoint change from confident removal claims.
 
-Return a concise difference list with paired locations or bounding boxes in normalized coordinates of the ORIGINAL images, explicitly labeled A and B. Explain uncertain matches; do not manufacture extra differences to reach an expected count.
+## Compare corresponding regions
+1. Sweep matched regions in a consistent order, retaining a record of checked areas.
+2. For each candidate, inspect the corresponding native-source crop in both images at comparable scale, together with enough surrounding context to establish location.
+3. Check presence, shape, orientation, attributes and visible text according to the user's request. Use pixel-level differences only to find candidates: anti-aliasing, compression and illumination can change pixels without changing content.
+4. When an object disappears at its old position, search the other full image before classifying it as removed. Match identity by distinctive features; repeated identical objects may prevent a unique match.
 
-Finish with the runtime action=answer object. Its answer field is a string containing the requested output.
+## Consolidate findings
+Group several changed pixels belonging to one edit into a single finding. Do not count both departure and arrival of one relocated object as two independent changes. Distinguish a changed label from a change in the depicted physical object. An expected number of differences is a check to investigate, not a quota to fill.
+
+## Deliver
+Provide an ordered list or table with change type, concise description, location in A, location in B and any uncertainty. If coordinates are requested, use normalized original-image boxes `[x0,y0,x1,y1]`, top-left origin, separately labeled A and B; use null for a genuinely absent counterpart. Never report crop-local coordinates as original-image coordinates.
+
+## Execution
+In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.

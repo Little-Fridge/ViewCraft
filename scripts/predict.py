@@ -19,7 +19,7 @@ def main():
     parser.add_argument("--question", required=True)
     parser.add_argument("--options", nargs="*", default=[])
     parser.add_argument("--frame-times", nargs="+", type=float)
-    parser.add_argument("--answer-style", choices=("short_text", "letter", "yes_no", "point"), default="short_text")
+    parser.add_argument("--answer-style", choices=("short_text", "free_text", "letter", "yes_no", "point"), default="short_text")
     parser.add_argument("--config", type=Path, default=ROOT / "configs/models.yaml")
     parser.add_argument("--observations", type=int, default=6)
     parser.add_argument("--max-images", type=int, default=4)

@@ -57,3 +57,5 @@ A reusable skill needs the three files above; its identity is computed from thei
 The paper's logical
 reader/interface partition is based on clause meaning; these three files are the
 runtime storage format, not a semantic classifier of each instruction clause.
+
+The task library uses `answer_style: free_text` in `skill.yaml` so answers can include citations, units, tables and explanations. For custom tasks or `scripts/predict.py`, select `free_text` when the requested output is a complete response; retain benchmark-specific styles for exact scored answers.

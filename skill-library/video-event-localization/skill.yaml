@@ -1,8 +1,9 @@
 id: video-event-localization
-title: 视频事件定位
-description: 按时间追踪动作，定位发生顺序与状态变化。
+title: Video Event Search & Temporal Grounding
+description: Locate actions and state transitions in a video or timestamped frames, track object identity,
+  and report event intervals at the precision actually observed.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 7
+  observations: 10
   max_images_per_request: 8

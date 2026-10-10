@@ -11,6 +11,8 @@ Start with the README and `configs/models.yaml`. For backend authentication,
 separate role endpoints, output roots and cache isolation see
 [configuration](configuration.md).
 
+`requirements-media.txt` adds direct PDF and video input for the skill runner, using pypdfium2 and PyAV without a separate ffmpeg command-line installation.
+
 `requirements-docs.txt` adds PDF-page tooling for benchmark adapters;
 `requirements-analysis.txt` adds optional plotting tools.
 

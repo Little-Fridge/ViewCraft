@@ -1,8 +1,9 @@
 id: diagram-understanding
-title: 流程图理解
-description: 追踪箭头与分支，把图里的关系解释清楚。
+title: Diagram & Workflow Reasoning
+description: Interpret flowcharts, architectures and dependency diagrams by tracing connectors, branch
+  conditions and loops into verifiable paths and relationships.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 6
+  observations: 10
   max_images_per_request: 8

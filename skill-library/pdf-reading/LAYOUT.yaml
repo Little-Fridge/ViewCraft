@@ -1,18 +1,17 @@
 annotate_overview_boxes: false
-answer_contract: Return the output requested by the question in the string answer
-  field of the runtime action=answer object. Preserve source identities, units and
-  coordinate conventions.
+answer_contract: Return all requested facts with document and page references, preserving units and scope.
+  Distinguish extracted evidence from calculations. Use the string answer field of the runtime action=answer
+  object.
 context_ops: []
 evict_policy: keep_overview_drop_crops
-history_keep_last_n: 6
+history_keep_last_n: 8
 keep_overview: true
 layout_expr: ''
 max_images_per_request: 8
 order: overview_first
 protocol_contract: ''
-view_contract: 'Keep source page identity, printed page labels and full-page overviews
-  associated with detail crops. Compare relevant pages without treating them as one
-  continuous image.
+view_contract: 'Keep source page identity, printed page labels and full-page overviews associated with
+  detail crops. Compare relevant pages without treating them as one continuous image.
 
 
   {image_lines}'

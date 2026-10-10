@@ -1,15 +1,27 @@
 ---
 name: video-event-localization
-description: Locate actions and state changes in supplied timestamped video frames.
-  Use for event order, object entry/exit and identifying relevant moments.
+description: Locate actions and state transitions in a video or timestamped frames, track object identity, and report event intervals at the precision actually observed.
 ---
 
-# 视频事件定位
+# Video Event Search & Temporal Grounding
 
-Establish the supplied time range and sampling intervals. Track the target by appearance and surrounding context across frames; absence under occlusion is not proof of removal. Distinguish a hand approaching an object from contact, movement and completed placement.
+## Use
+Accept a video and event definition, or timestamped frames. The CLI supports `--video clip.mp4`; control sampling with `--frame-interval` and refine a window with `--start` and `--end`. Timestamps refer to the original clip start, even for a selected window.
 
-Locate candidate time windows from broad coverage and inspect neighboring supplied frames around the relevant transition. When the full frame pool is available to the runtime, request those source frames rather than re-cropping an irrelevant instant. Keep timestamps attached when comparing views. Do not treat uniform sampling as proof that a short event was captured.
+## Define the event
+Translate the question into observable states. Separate approaching, contacting, moving, releasing and remaining still. For 'last', 'before' or 'after', identify the reference event and the temporal scope before selecting frames.
 
-Report directly observed timestamps and bracket an uncertain transition between the last preceding state and first following state. Do not claim second-level precision from widely spaced frames or infer audio evidence from pictures. If the decisive interval is missing, say that denser frames from that interval are required. The current library runner accepts frame images and timestamps, not a raw video file.
+## Search broadly, then locally
+1. Inspect broad temporal coverage to find candidate intervals. Uniform sampling, high motion and scene changes are cues, not guarantees that the decisive event is visible.
+2. Track the target by stable appearance and surrounding context. Camera motion can shift every object; compare against scene anchors before attributing movement.
+3. Request neighboring source frames around a candidate. Keep timestamps attached and compare preceding state, transition and following state in time order.
+4. If the prepared pool misses the transition, say which interval needs denser sampling. With access to the raw video, rerun that interval at a smaller `--frame-interval`. Enlarging one frame cannot recover a missing moment.
 
-Finish with the runtime action=answer object. Its answer field is a string containing the requested output.
+## Verify identity and completion
+Distinguish disappearance behind an occluder from exit or removal. Match multiple similar objects using their trajectories and distinguishing features. For a completed action, look for its postcondition; a hand touching a container does not prove an object was placed inside. For a static-state question, inspect separated times near the end rather than only the last frame.
+
+## Deliver
+Report the last observed pre-event timestamp and first observed post-event timestamp as a bracket when onset is uncertain. Give event order, object identity and the evidence times supporting it. Match precision to frame spacing. Do not infer sound or dialogue from frames. Label unobserved intervals and avoid claiming that a brief event never happened from sparse sampling alone.
+
+## Execution
+In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.

@@ -22,7 +22,7 @@ def test_library_skill(name):
     path = ROOT / "skill-library" / name
     meta = yaml.safe_load((path / "skill.yaml").read_text())
     assert meta["id"] == name
-    assert meta["answer_style"] in ("short_text", "point", "letter", "yes_no")
+    assert meta["answer_style"] == "free_text"
     coords = Coordinates.read_snapshot(path)
     Chain._assert_expressions_parse(None, Candidate("joint", coords, "gallery", "gallery"))
     assert meta["budget"]["observations"] > 0

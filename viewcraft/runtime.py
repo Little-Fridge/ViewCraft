@@ -571,6 +571,11 @@ def describe_visible(views: list["RenderedView"],
 # models to "give the option letter" made them invent an A-D that the scorer
 # then marked wrong - a harness artefact indistinguishable from a real error.
 ANSWER_STYLES = {
+    "free_text": (
+        "Answer in the user's requested format. Include relevant units, source "
+        "references, table rows and uncertainty. The answer field is a string; "
+        "it may contain Markdown, CSV or serialized JSON as requested.",
+        '{"action": "answer", "answer": "The requested result with supporting evidence."}'),
     "letter": ("To answer (give the option letter):",
                '{"action": "answer", "answer": "A", "note": "what you saw"}'),
     "short_text": (

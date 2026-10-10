@@ -1,15 +1,29 @@
 ---
 name: document-comparison
-description: Compare two document versions for substantive changes in requested fields,
-  clauses or tables. Use for proposals, specifications, forms and revised reports.
+description: Compare document versions by matching sections and records, then report substantive text, numeric and table changes with paired source references.
 ---
 
-# 文档版本核对
+# Document Revision Review
 
-Identify old/new versions and supplied page ranges. Match sections by headings, clause identifiers or exact item keys rather than page number or row position alone: reflow and pagination may move unchanged content. For tables, preserve units, currency, quantity bases and footnotes when aligning records.
+## Use
+Accept two versions as PDFs or labeled page images. Establish old/new order and the comparison scope. The CLI accepts `--pdf old.pdf new.pdf` and labels sources by document number and file page.
 
-Locate candidate changes in overviews, then inspect corresponding text or table blocks at native detail. Distinguish additions, deletions and substitutions from formatting or movement. A missing block in the supplied pages is not proof of deletion from the full version. For a changed number, check whether its unit or denominator also changed.
+## Align content before comparing
+Map sections through clause identifiers, headings, product codes or other stable keys. Page numbers, line wraps and row positions can change during reflow. Split or merged sections may require one-to-many alignment; record unmatched sections separately until the surrounding pages are checked.
 
-Return one row per substantive change with field or clause, old value, new value, and source locations in both versions. Separate unverifiable regions from verified changes. Describe factual text differences without inventing commercial or legal consequences.
+## Build paired evidence
+Keep one overview per version. Inspect matched blocks at native detail with relevant captions, table headers and footnotes. When only selected pages are available, distinguish 'not present in supplied pages' from a verified deletion from the complete version.
 
-Finish with the runtime action=answer object. Its answer field is a string containing the requested output.
+## Inspect substantive changes
+Check additions, deletions and substitutions in requested clauses, requirements, dates, quantities and entities. Preserve negation and qualifiers such as 'at least', 'unless', 'per unit' and 'excluding'. A one-word change may matter more than a paragraph moving to another page.
+
+For changed numbers, compare unit, currency, denominator, tax basis and covered period together. For tables, align rows by stable item identity and inspect headers independently: a renamed header can change every cell's interpretation without changing the printed numbers. Classify formatting-only and movement-only changes separately when the user wants them.
+
+## Reconcile the report
+Each finding needs evidence in both versions or a clearly established absence. Merge duplicate findings caused by overlapping crops. Check whether a changed summary agrees with its detailed table; retain both if the new version is inconsistent.
+
+## Deliver
+Return one row per finding: field/clause, old content, new content, factual change and source locations in both versions. Include unresolved matches separately. Quote only enough text to identify the difference. Do not infer commercial, legal or technical consequences that the documents do not establish.
+
+## Execution
+In ViewCraft, use the observation actions and source IDs supplied by the runtime. Finish with its `action=answer` object, with the complete requested output in the string `answer` field. In another visual agent, use its available inspection tools and return the same user-facing result directly.

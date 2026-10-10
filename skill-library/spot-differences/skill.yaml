@@ -1,8 +1,9 @@
 id: spot-differences
-title: 找不同
-description: 定位增删、移动、文字和外观变化。
+title: Visual Difference Inspection
+description: Compare paired images to localize additions, removals, movements and text changes while separating
+  camera, lighting and rendering differences.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 6
+  observations: 8
   max_images_per_request: 8

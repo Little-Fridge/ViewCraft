@@ -1,65 +1,81 @@
-<p align="center"><img src="../website/assets/brand/viewcraft-mark.png" alt="ViewCraft" width="84"></p>
+<p align="center"><img src="../website/assets/brand/viewcraft-mark.png" alt="ViewCraft" width="108"></p>
 
-# ViewCraft Practical Skill Library
+# ViewCraft Skill Library
 
-Ten reusable task skills in ViewCraft's native snapshot format. These are hand-authored skills, not automatically evolved checkpoints. Bring your own images, rendered PDF pages or timestamped video frames.
+Ten ready-to-run multimodal task skills. Each combines an evidence-gathering workflow, task-specific view settings and an output contract. Use them on your own files without running an optimization stage first.
 
-| Skill | Useful for | Input |
+| Skill | What you get | Input |
 | --- | --- | --- |
-| [PDF reading](pdf-reading/SKILL.md) | Manuals, reports, papers, cross-page evidence with page references | Rendered page images |
-| [Dense counting](dense-counting/SKILL.md) | Inventory, parts, repeated objects or symbols | Image |
-| [Spot differences](spot-differences/SKILL.md) | Changed objects, moved items, visual design revisions | Two corresponding images |
-| [Maze solving](maze-solving/SKILL.md) | Routes through visible corridors and junctions | Maze image |
-| [Chart reading](chart-reading/SKILL.md) | Series comparisons, units, trends and derived calculations | Chart image |
-| [Table extraction](table-extraction/SKILL.md) | Screenshots or scans to CSV, JSON or Markdown | Table images |
-| [Document comparison](document-comparison/SKILL.md) | Changed quotations, specifications and clauses across versions | Labeled old/new page images |
-| [Screenshot troubleshooting](screenshot-troubleshooting/SKILL.md) | Read visible errors and identify a useful diagnostic next step | Application screenshot |
-| [Video event localization](video-event-localization/SKILL.md) | Action order, object transitions and event time intervals | Frame images with timestamps |
-| [Diagram understanding](diagram-understanding/SKILL.md) | Flowchart branches, loops and system dependencies | Diagram image |
+| [PDF Research & Evidence Extraction](pdf-reading/SKILL.md) | Cross-page answers with citations, units and evidence gaps | PDF or page images |
+| [Dense Object Counting](dense-counting/SKILL.md) | Instance counts with regional reconciliation | Image |
+| [Visual Difference Inspection](spot-differences/SKILL.md) | Aligned additions, removals and movements with paired locations | Two images |
+| [Visual Maze Navigation](maze-solving/SKILL.md) | A route checked against corridor connectivity | Maze image |
+| [Chart Analysis & Quantitative Reasoning](chart-reading/SKILL.md) | Values and calculations that preserve scale and uncertainty | Chart image or PDF |
+| [Visual Table Extraction](table-extraction/SKILL.md) | CSV, JSON or Markdown with correct row and column ownership | PDF or table images |
+| [Document Revision Review](document-comparison/SKILL.md) | Substantive changes with paired old/new references | Two PDFs or labeled page images |
+| [Screenshot Diagnosis](screenshot-troubleshooting/SKILL.md) | Evidence-based diagnosis and a discriminating next check | Screenshot |
+| [Video Event Search & Temporal Grounding](video-event-localization/SKILL.md) | Event order and time intervals supported by observed frames | Video or timestamped frames |
+| [Diagram & Workflow Reasoning](diagram-understanding/SKILL.md) | Traced paths, dependencies, branches and loops | Diagram image or PDF |
 
-Each folder contains `SKILL.md` (reading procedure), `VIEW.yaml` (observation configuration), `LAYOUT.yaml` (view context and answer contracts), and `skill.yaml` (task metadata and execution budget).
+## Run a skill
 
-## Run with your own input
-
-From the ViewCraft repository root, configure your executor in `configs/models.yaml` using the existing setup documentation. Keep credentials in the configured environment variables.
+Install the [core requirements and configure a vision-model executor](../README.md#quickstart). PDF and video inputs additionally need:
 
 ```bash
-python scripts/use_skill.py \
-  --skill skill-library/dense-counting \
-  --images your-image.png \
-  --question "How many target objects are visible? Give region subtotals." \
-  --config configs/models.yaml
+python -m pip install -r requirements-media.txt
 ```
 
-You can also use the short skill ID, such as `--skill dense-counting`. Add `--check` to validate files and skill configuration without calling a model. These folders intentionally do not contain a bundled scored case, so provide both `--images` and `--question`.
-
-For differences, supply both original images and identify their order in the question:
+From the repository root:
 
 ```bash
-python scripts/use_skill.py \
-  --skill skill-library/spot-differences \
+# Read a PDF directly, with automatic page rendering and source labels.
+python scripts/use_skill.py --skill pdf-reading \
+  --pdf report.pdf --pages 2-8,21-25 \
+  --question "Compare the reported methods and results. Cite a page for each claim."
+
+# Compare document versions in the specified old/new order.
+python scripts/use_skill.py --skill document-comparison \
+  --pdf old.pdf new.pdf \
+  --question "Document 1 is OLD and document 2 is NEW. List changed prices and delivery terms with sources."
+
+# Count instances with an explicit inclusion rule.
+python scripts/use_skill.py --skill dense-counting \
+  --images inventory.png \
+  --question "Count visible screws, including partly occluded screws identifiable as one instance. Give regional subtotals."
+
+# Inspect paired images.
+python scripts/use_skill.py --skill spot-differences \
   --images before.png after.png \
-  --question "Image 1 is BEFORE, image 2 is AFTER. List removed and relocated objects with locations."
+  --question "Image 1 is BEFORE and image 2 is AFTER. List removed and relocated objects with paired locations."
+
+# Find a video event in an original-timeline window.
+python scripts/use_skill.py --skill video-event-localization \
+  --video clip.mp4 --start 12 --end 25 --frame-interval 0.5 \
+  --question "When is the blue object placed in the box? Give the narrowest supported time interval."
 ```
 
-## PDF and video inputs
+Add `--check` to validate the skill and prepare the inputs without model calls or persistent run output. Add `--output runs/my-task` to choose a new output folder. The answer is printed and saved in `answer.md`; `result.json` reports execution status. Model replies, trajectories and visual replay are saved only when you explicitly add `--record`.
 
-The current `scripts/use_skill.py` entry point consumes images, not raw PDF/video files. Render relevant PDF pages to images before running PDF reading, table extraction or document comparison. Name them by file-page index, such as `report-page-012.png`, and state document version and page mapping in the question. Preserve printed page numbers in the image. For long documents, select relevant sections first; a finite view budget does not guarantee full-document coverage. Cross-page claims require all relevant pages to be supplied.
+## Input controls
 
-For video, supply frame images in increasing time order with one timestamp in seconds per frame:
+- **PDF:** `--pages` uses 1-based file pages, not printed page labels. Omit it for documents up to 64 pages. For longer documents, select up to 64 pages per document; the runner never silently discards later pages. With multiple PDFs, the same page selection applies to each. Pages are rendered at a 2560-pixel long edge and remain individually addressable during execution.
+- **Video:** timestamps stay relative to the original clip start. The default spacing is one second, with a 120-frame limit. An over-limit clip produces an actionable error instead of silently truncating it. Refine an uncertain interval with a smaller `--frame-interval`; events between sampled frames may remain unobserved. Audio is not processed.
+- **Prepared frames:** pass `--images frame1.png frame2.png` with `--frame-times 0 0.5`. Timestamps must be finite, nonnegative, strictly increasing and match the image count.
+- **Several images:** supply them in the order described by your question. The runner exposes a zero-based source-unit map; answer locations refer to the named original image, not a temporary crop.
 
-```bash
-python scripts/use_skill.py \
-  --skill skill-library/video-event-localization \
-  --images frame-000.png frame-005.png frame-010.png \
-  --frame-times 0 5 10 \
-  --question "When does the target enter the container? Report the observed time interval."
-```
+The observation budget controls how many inspection steps are available. Long tables and documents may need narrower questions or larger budgets in `skill.yaml`. Failed or incomplete execution is reported rather than treated as a successful answer.
 
-The skill cannot recover an event absent from the supplied frame pool. Add denser frames around unresolved intervals. Time precision must reflect the frames actually observed.
+## Use in another visual agent
 
-## Reuse
+Give the agent the relevant `SKILL.md`, or copy its folder into the agent's supported skills directory. The agent needs image inspection and cropping tools; PDF and video tasks also need rendering or frame extraction. The reading workflow can be used directly. `VIEW.yaml` and `LAYOUT.yaml` are executed by ViewCraft and are not automatically interpreted by other agents.
 
-Supply your own source images and adapt the reading rules or observation budget to your task.
+Each folder contains:
 
-These are starting configurations; validate them on your own tasks before relying on their answers. See the repository license for distribution terms.
+| File | Purpose |
+| --- | --- |
+| `SKILL.md` | Task workflow, verification rules and deliverable |
+| `VIEW.yaml` | Source selection, image resolution and crop settings |
+| `LAYOUT.yaml` | Source context, retained views and answer contract |
+| `skill.yaml` | Task identity and execution budget |
+
+The library is maintained separately from the evolved benchmark artifacts evaluated in the paper. Paper scores do not measure these ten workflows. See [release scope](../docs/release.md) for the artifact boundary.

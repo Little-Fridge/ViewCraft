@@ -1,17 +1,17 @@
 annotate_overview_boxes: false
-answer_contract: Return the output requested by the question in the string answer
-  field of the runtime action=answer object. Preserve source identities, units and
-  coordinate conventions.
+answer_contract: Return paired old/new content with source references for each change. Separate substantive
+  differences from reflow and unresolved matches. Use the string answer field of the runtime action=answer
+  object.
 context_ops: []
 evict_policy: keep_overview_drop_crops
-history_keep_last_n: 6
+history_keep_last_n: 8
 keep_overview: true
 layout_expr: ''
 max_images_per_request: 8
 order: overview_first
 protocol_contract: ''
-view_contract: 'Keep document version, page identity and matched section together.
-  Reordered rows and repaginated sections must be aligned semantically before comparing.
+view_contract: 'Keep document version, page identity and matched section together. Reordered rows and
+  repaginated sections must be aligned semantically before comparing.
 
 
   {image_lines}'

@@ -27,7 +27,7 @@ instructions together, then exports them as a reusable skill. Model weights stay
 | :---: | :---: | :---: |
 | **+6.1** mean task-score points vs. Direct | **+5.2** points vs. token-matched Direct | **8–15%** fewer input tokens vs. Initial skill |
 
-<sub>Results reported in the paper. The reusable starter skills below are separate from the paper's evolved benchmark artifacts.</sub>
+<sub>Results reported in the paper's benchmark evaluation; see [release scope](docs/release.md) for artifact details.</sub>
 
 <p align="center">
   <a href="https://little-fridge.github.io/ViewCraft-page/"><img src="website/assets/overview.webp" alt="ViewCraft paper overview: evolve evidence construction and reading together" width="920"></a>
@@ -66,6 +66,14 @@ python scripts/use_skill.py \
   --question 'How many target objects are visible? Give region subtotals.'
 ```
 
+For PDFs or videos, install `requirements-media.txt` and pass the original file:
+
+```bash
+python -m pip install -r requirements-media.txt
+python scripts/use_skill.py --skill pdf-reading --pdf report.pdf \
+  --question 'Summarize the main findings with page references.'
+```
+
 Or evolve a skill and evaluate it on held-out items:
 
 ```bash
@@ -83,9 +91,9 @@ See [configuration](docs/configuration.md) for endpoint options and
 
 <table>
 <tr>
-<td align="center" width="33%"><img src="website/assets/brand/see-icon.png" alt="" width="76"><br><b>See</b><br><sub>Select observations, crops and visual transformations.</sub><br><br><code>VIEW.yaml</code></td>
-<td align="center" width="33%"><img src="website/assets/brand/arrange-icon.png" alt="" width="76"><br><b>Arrange</b><br><sub>Organize views, labels and context.</sub><br><br><code>LAYOUT.yaml</code></td>
-<td align="center" width="33%"><img src="website/assets/brand/read-icon.png" alt="" width="76"><br><b>Read</b><br><sub>Inspect, compare and reason from the evidence.</sub><br><br><code>SKILL.md</code></td>
+<td align="center" width="33%"><img src="website/assets/brand/see-icon.png" alt="" width="116"><br><b>See</b><br><sub>Select observations, crops and visual transformations.</sub><br><br><code>VIEW.yaml</code></td>
+<td align="center" width="33%"><img src="website/assets/brand/arrange-icon.png" alt="" width="116"><br><b>Arrange</b><br><sub>Organize views, labels and context.</sub><br><br><code>LAYOUT.yaml</code></td>
+<td align="center" width="33%"><img src="website/assets/brand/read-icon.png" alt="" width="116"><br><b>Read</b><br><sub>Inspect, compare and reason from the evidence.</sub><br><br><code>SKILL.md</code></td>
 </tr>
 </table>
 
@@ -106,7 +114,7 @@ python scripts/predict.py \
 
 ## Skill library
 
-Ten task-focused starting skills, ready to adapt to your own inputs.
+Ten ready-to-run task skills for documents, images and video.
 Each includes reading instructions, observation settings and a view-context contract.
 
 | Skill | What you can do |
@@ -122,8 +130,7 @@ Each includes reading instructions, observation settings and a view-context cont
 | [Video event localization](skill-library/video-event-localization) | Track actions and changes through timestamped frames. |
 | [Diagram understanding](skill-library/diagram-understanding) | Follow arrows, branches, dependencies and loops. |
 
-These skills are hand-authored initializations. PDF pages and video frames must
-be prepared as images for the current runner. [Usage and input preparation →](skill-library/README.md)
+Run these skills directly on your files; no optimization stage is required. The runner accepts images, PDFs and videos, and saves the complete answer with its supporting evidence. [Commands and supported inputs →](skill-library/README.md)
 
 ## Documentation
 

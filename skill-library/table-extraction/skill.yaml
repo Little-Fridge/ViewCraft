@@ -1,8 +1,9 @@
 id: table-extraction
-title: 表格提取
-description: 保留行列关系，把截图整理成结构化数据。
+title: Visual Table Extraction
+description: Convert scanned tables, PDF pages and screenshots to CSV, JSON or Markdown while preserving
+  header hierarchy, merged labels and row ownership.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 6
+  observations: 10
   max_images_per_request: 8

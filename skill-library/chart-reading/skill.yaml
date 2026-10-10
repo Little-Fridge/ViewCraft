@@ -1,8 +1,9 @@
 id: chart-reading
-title: 图表解读
-description: 读懂坐标、图例与单位，再比较和计算。
+title: Chart Analysis & Quantitative Reasoning
+description: Read statistical charts and dashboards, extract supported values and calculate comparisons
+  while preserving scale, units, series identity and uncertainty.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 5
+  observations: 6
   max_images_per_request: 8

@@ -1,8 +1,9 @@
 id: pdf-reading
-title: PDF 阅读
-description: 定位证据，跨页阅读，带页码回答。
+title: PDF Research & Evidence Extraction
+description: Answer questions about PDF reports, papers and manuals by locating page-level evidence, joining
+  tables and figures across pages, and returning traceable citations.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 6
+  observations: 8
   max_images_per_request: 8

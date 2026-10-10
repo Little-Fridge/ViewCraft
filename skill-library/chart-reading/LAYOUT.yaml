@@ -1,17 +1,16 @@
 annotate_overview_boxes: false
-answer_contract: Return the output requested by the question in the string answer
-  field of the runtime action=answer object. Preserve source identities, units and
-  coordinate conventions.
+answer_contract: Return series, period, values, units and any requested calculation. Mark approximate
+  readings and use justified precision. Use the string answer field of the runtime action=answer object.
 context_ops: []
 evict_policy: keep_overview_drop_crops
-history_keep_last_n: 6
+history_keep_last_n: 8
 keep_overview: true
 layout_expr: ''
 max_images_per_request: 8
 order: overview_first
 protocol_contract: ''
-view_contract: 'Retain axes, legends and footnotes with plot-region details. Crops
-  of isolated marks are insufficient to establish units or series identity.
+view_contract: 'Retain axes, legends and footnotes with plot-region details. Crops of isolated marks are
+  insufficient to establish units or series identity.
 
 
   {image_lines}'

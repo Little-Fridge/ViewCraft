@@ -1,8 +1,9 @@
 id: maze-solving
-title: 迷宫寻路
-description: 沿可通行区域寻找路线，逐段核对墙体。
+title: Visual Maze Navigation
+description: Find and verify routes through maze images by reconstructing corridor connectivity, tracking
+  junctions and checking every route segment against walls.
 input_type: image
-answer_style: short_text
+answer_style: free_text
 budget:
-  observations: 8
+  observations: 12
   max_images_per_request: 8

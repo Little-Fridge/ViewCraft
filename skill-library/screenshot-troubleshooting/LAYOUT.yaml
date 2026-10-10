@@ -1,17 +1,17 @@
 annotate_overview_boxes: false
-answer_contract: Return the output requested by the question in the string answer
-  field of the runtime action=answer object. Preserve source identities, units and
-  coordinate conventions.
+answer_contract: Return observed facts, a supported diagnostic hypothesis, and the next discriminating
+  check without inventing hidden application state. Use the string answer field of the runtime action=answer
+  object.
 context_ops: []
 evict_policy: keep_overview_drop_crops
-history_keep_last_n: 6
+history_keep_last_n: 8
 keep_overview: true
 layout_expr: ''
 max_images_per_request: 8
 order: overview_first
 protocol_contract: ''
-view_contract: 'Retain application and dialog context around error crops. Field labels
-  and state indicators belong with their messages.
+view_contract: 'Retain application and dialog context around error crops. Field labels and state indicators
+  belong with their messages.
 
 
   {image_lines}'
