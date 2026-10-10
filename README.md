@@ -1,10 +1,8 @@
 <div align="center">
 
-# ViewCraft
+<a href="https://little-fridge.github.io/ViewCraft-page/"><img src="website/assets/brand/viewcraft-banner.png" alt="ViewCraft — See. Compose. Read." width="100%"></a>
 
 ### Evolving What Multimodal Agents See and How They Read It
-
-Learn better views. Save a better skill.
 
 [![Project Page](https://img.shields.io/badge/Project_Page-ViewCraft-2459df?style=for-the-badge)](https://little-fridge.github.io/ViewCraft-page/)
 [![Paper](https://img.shields.io/badge/Paper-PDF-41516d?style=for-the-badge)](https://little-fridge.github.io/ViewCraft-page/assets/ViewCraft.pdf)
@@ -83,10 +81,13 @@ See [configuration](docs/configuration.md) for endpoint options and
 
 ## Method
 
-| See | Arrange | Read |
-| :--- | :--- | :--- |
-| Select observations, crops and visual transformations. | Organize views, labels and context. | Inspect, compare and reason from the evidence. |
-| `VIEW.yaml` | `LAYOUT.yaml` | `SKILL.md` |
+<table>
+<tr>
+<td align="center" width="33%"><img src="website/assets/brand/see-icon.png" alt="" width="76"><br><b>See</b><br><sub>Select observations, crops and visual transformations.</sub><br><br><code>VIEW.yaml</code></td>
+<td align="center" width="33%"><img src="website/assets/brand/arrange-icon.png" alt="" width="76"><br><b>Arrange</b><br><sub>Organize views, labels and context.</sub><br><br><code>LAYOUT.yaml</code></td>
+<td align="center" width="33%"><img src="website/assets/brand/read-icon.png" alt="" width="76"><br><b>Read</b><br><sub>Inspect, compare and reason from the evidence.</sub><br><br><code>SKILL.md</code></td>
+</tr>
+</table>
 
 Execution traces guide joint revisions. Visual replay and execution checks screen
 them; paired development evaluation decides what to retain. Eligible rejected
@@ -122,8 +123,7 @@ Each includes reading instructions, observation settings and a view-context cont
 | [Diagram understanding](skill-library/diagram-understanding) | Follow arrows, branches, dependencies and loops. |
 
 These skills are hand-authored initializations. PDF pages and video frames must
-be prepared as images for the current runner. No gallery images or internal
-model-response records are included. [Usage and input preparation →](skill-library/README.md)
+be prepared as images for the current runner. [Usage and input preparation →](skill-library/README.md)
 
 ## Documentation
 

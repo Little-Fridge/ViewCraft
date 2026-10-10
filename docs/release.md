@@ -2,11 +2,9 @@
 
 The repository includes the ViewCraft runtime and joint reader/interface evolution framework, custom-task and scoring support, prediction, resume, benchmark adapters, and a minimal synthetic counting example.
 
-`skill-library/` contains ten hand-authored reusable task skills. They are starting configurations, not automatically evolved checkpoints or a reproduction of paper results. They contain no case-image gallery, model-response comparisons or internal evaluation logs.
+`skill-library/` contains ten hand-authored reusable task skills. They are starting configurations, not automatically evolved checkpoints or a reproduction of paper results.
 
 `website/` contains the paper project page, original paper figures and the preprint PDF. Paper results shown there are separate from the starter skill library. See [website publishing](website.md).
-
-The old gallery inputs and recorded answers were removed from the current release tree. Their local development archive is outside the repository. Existing Git history is preserved; this cleanup does not erase previous commits.
 
 ## Reproduction boundary
 

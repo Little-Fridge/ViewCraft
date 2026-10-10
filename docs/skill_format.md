@@ -52,7 +52,8 @@ are exposed by `selection_help()`, `function_help()`, `layout_help()`, and
 receives these helpers in its proposal prompt. Expressions use a bounded AST
 interpreter; they are not arbitrary Python programs.
 
-Final snapshots also contain `CONFIG_HASH`, computed from all three coordinates.
-Copy the entire directory when deploying a skill. The paper's logical
+A reusable skill needs the three files above; its identity is computed from their contents when loaded. Evolution run snapshots additionally write `CONFIG_HASH` for resume and result collection; this generated file is not needed in the distributed skill library.
+
+The paper's logical
 reader/interface partition is based on clause meaning; these three files are the
 runtime storage format, not a semantic classifier of each instruction clause.

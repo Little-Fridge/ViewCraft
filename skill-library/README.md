@@ -1,6 +1,8 @@
+<p align="center"><img src="../website/assets/brand/viewcraft-mark.png" alt="ViewCraft" width="84"></p>
+
 # ViewCraft Practical Skill Library
 
-Ten reusable task skills in ViewCraft's native snapshot format. These are hand-authored skills, not automatically evolved checkpoints. Bring your own inputs; no evaluation scores, model comparison logs, or benchmark claims are included.
+Ten reusable task skills in ViewCraft's native snapshot format. These are hand-authored skills, not automatically evolved checkpoints. Bring your own images, rendered PDF pages or timestamped video frames.
 
 | Skill | Useful for | Input |
 | --- | --- | --- |
@@ -15,7 +17,7 @@ Ten reusable task skills in ViewCraft's native snapshot format. These are hand-a
 | [Video event localization](video-event-localization/SKILL.md) | Action order, object transitions and event time intervals | Frame images with timestamps |
 | [Diagram understanding](diagram-understanding/SKILL.md) | Flowchart branches, loops and system dependencies | Diagram image |
 
-Each folder contains `SKILL.md` (reading procedure), `VIEW.yaml` (observation configuration), `LAYOUT.yaml` (view context and answer contracts), `CONFIG_HASH`, and `skill.yaml` (runner metadata). None contains example-specific answers or fixed evidence coordinates.
+Each folder contains `SKILL.md` (reading procedure), `VIEW.yaml` (observation configuration), `LAYOUT.yaml` (view context and answer contracts), and `skill.yaml` (task metadata and execution budget).
 
 ## Run with your own input
 
@@ -58,6 +60,6 @@ The skill cannot recover an event absent from the supplied frame pool. Add dense
 
 ## Reuse
 
-The library contains task instructions and execution settings. Supply your own source images; no gallery images or recorded model responses are distributed.
+Supply your own source images and adapt the reading rules or observation budget to your task.
 
-The format and runtime-expression checks have been run for all ten skills. Task-level reliability on new PDFs, mazes, charts and videos has not been established. Observation budgets are editable starting configurations, not claims of optimality. See the repository license for the code distribution terms.
+These are starting configurations; validate them on your own tasks before relying on their answers. See the repository license for distribution terms.

@@ -54,3 +54,9 @@ runs/
 venv/
 gallery-realworld/
 gallery-challenge/
+
+# Generated release metadata and local analysis output
+/skill-library/*/CONFIG_HASH
+/skill-library/catalog.json
+/requirements-lock.txt
+/results/
