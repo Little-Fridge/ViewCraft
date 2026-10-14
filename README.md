@@ -5,11 +5,11 @@
 ### Evolving What Multimodal Agents See and How They Read It
 
 [![Project Page](https://img.shields.io/badge/Project_Page-ViewCraft-2459df?style=for-the-badge)](https://little-fridge.github.io/ViewCraft-page/)
-[![Paper](https://img.shields.io/badge/Paper-PDF-41516d?style=for-the-badge)](https://little-fridge.github.io/ViewCraft-page/assets/ViewCraft.pdf)
+[![arXiv](https://img.shields.io/badge/arXiv-2610.15915-b31b1b?style=for-the-badge)](https://arxiv.org/abs/2610.15915)
 [![Skill Library](https://img.shields.io/badge/Skill_Library-10_tasks-41866b?style=for-the-badge)](skill-library/README.md)
 
 Binxiao Xu · Ruichuan An · Bocheng Zou · Weihua Du · Xinyu Wei<br>
-Hangyu Guo · Renye Yan · YiFan Zhang · Hang Hua
+Hangyu Guo · YiFan Zhang · Renye Yan · Chengqi Duan · Hang Hua
 
 [Quickstart](#quickstart) · [Method](#method) · [Skills](#skill-library) · [Documentation](#documentation) · [Citation](#citation)
 
@@ -162,13 +162,18 @@ tests/           Offline software checks
 
 ```bibtex
 @misc{xu2026viewcraft,
-  title  = {ViewCraft: Evolving What Multimodal Agents See and How They Read It},
-  author = {Binxiao Xu and Ruichuan An and Bocheng Zou and Weihua Du and
-            Xinyu Wei and Hangyu Guo and Renye Yan and YiFan Zhang and Hang Hua},
-  year   = {2026},
-  note   = {Preprint}
+  title         = {{VIEWCRAFT}: Evolving What Multimodal Agents See and How They Read It},
+  author        = {Binxiao Xu and Ruichuan An and Bocheng Zou and Weihua Du and
+                   Xinyu Wei and Hangyu Guo and YiFan Zhang and Renye Yan and
+                   Chengqi Duan and Hang Hua},
+  year          = {2026},
+  eprint        = {2610.15915},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  doi           = {10.48550/arXiv.2610.15915},
+  url           = {https://arxiv.org/abs/2610.15915}
 }
 ```
 
-The arXiv identifier will be added after submission.
+Paper: [arXiv:2610.15915](https://arxiv.org/abs/2610.15915).
 Code is released under the [MIT License](LICENSE); external datasets retain their own terms.

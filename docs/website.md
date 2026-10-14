@@ -4,7 +4,7 @@ Project page: https://little-fridge.github.io/ViewCraft-page/
 
 Website-only repository: https://github.com/Little-Fridge/ViewCraft-page
 
-The ViewCraft code repository remains private. The account's current plan does not support Pages for that private repository, so the project page is hosted from a separate public repository containing only the website and publication assets.
+The ViewCraft code repository is public. The project page is hosted from a separate public repository containing only the website and publication assets.
 
 ## Source and publishing
 
@@ -18,4 +18,4 @@ Do not copy the code checkout, its Git history, internal galleries, evaluation r
 
 All asset links are relative to support the `/ViewCraft-page/` project path. Update the canonical/Open Graph URLs in `website/index.html` and the README links if the Pages address changes.
 
-The site publishes the preprint PDF and paper figures. Its code links currently require access to the private code repository. Remove the private-access note on the site when the code repository is intentionally made public.
+The site links to the paper at https://arxiv.org/abs/2610.15915 and publishes the paper figures. Its code and skill links are publicly accessible.
